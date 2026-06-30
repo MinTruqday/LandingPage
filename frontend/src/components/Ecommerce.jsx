@@ -1,61 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { trackEvent } from '../utils/tracking';
-import ProductDetail from './ProductDetail';
-
-const products = [
-  {
-    id: 'ip17p-1',
-    name: 'iPhone 17 Pro 256GB - Titan Tự Nhiên',
-    price: '28.990.000đ',
-    image: 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium?wid=5120&hei=2880&fmt=png-alpha&qlt=80&.v=1692846363993'
-  },
-  {
-    id: 'ip17pm-1',
-    name: 'iPhone 17 Pro Max 256GB - Titan Đen',
-    price: '34.990.000đ',
-    image: 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-blacktitanium?wid=5120&hei=2880&fmt=png-alpha&qlt=80&.v=1692846362489'
-  }
-];
+import { featuredProducts } from '../data/products';
 
 const Ecommerce = () => {
-  const { addToCart, favorites, toggleFavorite, addViewedProduct } = useContext(AppContext);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const { addToCart, favorites, toggleFavorite, user, setCurrentView } = useContext(AppContext);
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
+    if (!user) {
+      setCurrentView('auth');
+      return;
+    }
     addToCart(product);
-    trackEvent('add_to_cart', product.id, window.location.pathname);
+    trackEvent('add_to_cart', product.id, '/ecommerce');
   };
 
   const handleToggleFavorite = (e, product) => {
     e.stopPropagation();
+    if (!user) {
+      setCurrentView('auth');
+      return;
+    }
     toggleFavorite(product.id);
-    trackEvent('toggle_favorite', product.id, window.location.pathname);
-  };
-
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-    trackEvent('view_product_detail', product.id, window.location.pathname);
+    trackEvent('toggle_favorite', product.id, '/ecommerce');
   };
 
   return (
-    <section id="store" style={{ padding: '80px 20px', backgroundColor: 'var(--secondary-bg)' }}>
-      <h2 className="section-title">Chọn phiên bản của bạn</h2>
+    <section id="store" style={{ padding: '80px 20px', backgroundColor: 'var(--bg-color)' }}>
+      <h2 className="section-title">Chọn iPhone của bạn</h2>
       <div className="product-grid">
-        {products.map(product => (
-          <div 
-            key={product.id} 
-            className="product-card"
-            style={{ cursor: 'pointer' }}
-            onMouseEnter={() => addViewedProduct(product.id)}
-            onClick={() => handleProductClick(product)}
-          >
+        {featuredProducts.map(product => (
+          <div key={product.id} className="product-card" style={{ backgroundColor: 'var(--secondary-bg)' }}>
             <img src={product.image} alt={product.name} loading="lazy" />
-            <h3>{product.name}</h3>
-            <p style={{ color: 'var(--primary-color)', margin: '10px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
-            <div className="product-actions">
+            <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>{product.name}</h3>
+            <p style={{ color: 'var(--primary-color)', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
+            <div className="product-actions" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
               <button 
                 className="btn" 
                 style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
@@ -73,10 +54,9 @@ const Ecommerce = () => {
           </div>
         ))}
       </div>
-      
-      {selectedProduct && (
-        <ProductDetail product={selectedProduct} onClose={() => setSelectedProduct(null)} />
-      )}
+      <div style={{ textAlign: 'center', marginTop: '40px' }}>
+        <button className="btn" onClick={() => setCurrentView('products')}>Xem tất cả sản phẩm</button>
+      </div>
     </section>
   );
 };

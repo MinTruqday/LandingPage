@@ -1,5 +1,4 @@
 export const allProducts = [
-  // iPhone 17 Pro
   {
     id: 'ip17p-128-nat',
     name: 'iPhone 17 Pro 128GB - Titan Tự Nhiên',
@@ -35,8 +34,6 @@ export const allProducts = [
     image: 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-bluetitanium?wid=5120&hei=2880&fmt=png-alpha&qlt=80&.v=1692846360609',
     category: 'iPhone 17 Pro'
   },
-
-  // iPhone 17 Pro Max
   {
     id: 'ip17pm-256-nat',
     name: 'iPhone 17 Pro Max 256GB - Titan Tự Nhiên',
@@ -65,4 +62,9 @@ export const allProducts = [
     image: 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=5120&hei=2880&fmt=png-alpha&qlt=80&.v=1692846362489',
     category: 'iPhone 17 Pro Max'
   }
+];
+
+export const featuredProducts = [
+  allProducts.find(p => p.id === 'ip17p-128-nat'),
+  allProducts.find(p => p.id === 'ip17pm-256-blk')
 ];

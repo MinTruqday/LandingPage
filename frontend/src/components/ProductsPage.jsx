@@ -3,27 +3,35 @@ import { AppContext } from '../context/AppContext';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { trackEvent } from '../utils/tracking';
 import ProductDetail from './ProductDetail';
+import ViewedProducts from './ViewedProducts';
 import { allProducts } from '../data/products';
 
 const ProductsPage = () => {
-  const { addToCart, favorites, toggleFavorite, addViewedProduct, setView } = useContext(AppContext);
+  const { addToCart, favorites, toggleFavorite, addViewedProduct, user, setCurrentView } = useContext(AppContext);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate network delay for skeleton loading
     const timer = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
+    if (!user) {
+      setCurrentView('auth');
+      return;
+    }
     addToCart(product);
     trackEvent('add_to_cart', product.id, '/products');
   };
 
   const handleToggleFavorite = (e, product) => {
     e.stopPropagation();
+    if (!user) {
+      setCurrentView('auth');
+      return;
+    }
     toggleFavorite(product.id);
     trackEvent('toggle_favorite', product.id, '/products');
   };
@@ -84,6 +92,8 @@ const ProductsPage = () => {
             ))
           )}
         </div>
+        
+        <ViewedProducts />
       </div>
       
       {selectedProduct && (

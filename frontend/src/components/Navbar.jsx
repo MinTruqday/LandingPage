@@ -1,13 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
-import { Moon, Sun, ShoppingCart, X, Menu, User, LogOut } from 'lucide-react';
-import AuthModal from './AuthModal';
+import { Moon, Sun, ShoppingCart, X, Menu, User, LogOut, Heart } from 'lucide-react';
 
 const Navbar = () => {
-  const { isDarkMode, toggleDarkMode, cart, updateQuantity, removeFromCart, setIsCheckout, setIsProductsPage, user, login, logout } = useContext(AppContext);
+  const { isDarkMode, toggleDarkMode, cart, updateQuantity, removeFromCart, setCurrentView, currentView, user, login, logout, favorites } = useContext(AppContext);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
@@ -18,7 +16,7 @@ const Navbar = () => {
 
   const handleCheckoutClick = () => {
     setIsCartOpen(false);
-    setIsCheckout(true);
+    setCurrentView('checkout');
   };
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -26,7 +24,7 @@ const Navbar = () => {
   return (
     <>
       <nav>
-        <div className="logo" style={{ fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => {setIsCheckout(false); setIsProductsPage(false); closeMobileMenu();}}>
+        <div className="logo" style={{ fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => {setCurrentView('home'); closeMobileMenu();}}>
           iPhone 17 Pro
         </div>
         
@@ -35,27 +33,48 @@ const Navbar = () => {
         </button>
 
         <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
-          <a href="#features" onClick={() => {setIsCheckout(false); setIsProductsPage(false); closeMobileMenu();}}>Tính năng</a>
-          <a href="#specs" onClick={() => {setIsCheckout(false); setIsProductsPage(false); closeMobileMenu();}}>Thông số</a>
-          <a href="#store" onClick={(e) => {e.preventDefault(); setIsCheckout(false); setIsProductsPage(true); closeMobileMenu();}}>Sản phẩm</a>
+          <a href="#features" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Tính năng</a>
+          <a href="#specs" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Thông số</a>
+          <a href="#store" onClick={(e) => {e.preventDefault(); setCurrentView('products'); closeMobileMenu();}}>Sản phẩm</a>
           
           <div className="nav-actions">
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Hi, {user}</span>
-                <button onClick={logout} style={{ color: 'var(--text-color)' }}><LogOut size={18} /></button>
+                <button onClick={logout} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}><LogOut size={18} /></button>
               </div>
             ) : (
-              <button onClick={() => {setIsAuthModalOpen(true); closeMobileMenu();}} style={{ color: 'var(--text-color)' }}>
+              <button onClick={() => {setCurrentView('auth'); closeMobileMenu();}} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
                 <User size={20} />
               </button>
             )}
+            
+            <button onClick={() => {
+              if (user) {
+                setCurrentView('favorites');
+              } else {
+                setCurrentView('auth');
+              }
+              closeMobileMenu();
+            }} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer', position: 'relative' }}>
+              <Heart size={20} />
+              {favorites.length > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-8px', right: '-8px',
+                  backgroundColor: 'var(--primary-color)', color: 'white', borderRadius: '50%',
+                  width: '16px', height: '16px', fontSize: '10px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                  {favorites.length}
+                </span>
+              )}
+            </button>
 
-            <button onClick={toggleDarkMode} style={{ color: 'var(--text-color)' }}>
+            <button onClick={toggleDarkMode} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <button onClick={() => {setIsCartOpen(true); closeMobileMenu();}} style={{ color: 'var(--text-color)' }}>
+              <button onClick={() => {setIsCartOpen(true); closeMobileMenu();}} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
                 <ShoppingCart size={20} />
               </button>
               {cart.length > 0 && (
@@ -73,14 +92,12 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onLogin={login} />
-
       {isCartOpen && (
         <div className="cart-modal-overlay" onClick={() => setIsCartOpen(false)}>
           <div className="cart-modal" onClick={e => e.stopPropagation()}>
             <div className="cart-header">
               <h2>Giỏ hàng của bạn</h2>
-              <button onClick={() => setIsCartOpen(false)}>
+              <button onClick={() => setIsCartOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                 <X size={24} color="var(--text-color)" />
               </button>
             </div>
@@ -95,10 +112,10 @@ const Navbar = () => {
                       <h4>{item.name}</h4>
                       <p style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>{item.price}</p>
                       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px', gap: '10px' }}>
-                        <button onClick={() => updateQuantity(item.name, -1)} style={{ padding: '2px 8px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'transparent', color: 'var(--text-color)' }}>-</button>
+                        <button onClick={() => updateQuantity(item.name, -1)} style={{ padding: '2px 8px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'transparent', color: 'var(--text-color)', cursor: 'pointer' }}>-</button>
                         <span>{item.quantity || 1}</span>
-                        <button onClick={() => updateQuantity(item.name, 1)} style={{ padding: '2px 8px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'transparent', color: 'var(--text-color)' }}>+</button>
-                        <button onClick={() => removeFromCart(item.name)} style={{ marginLeft: 'auto', color: 'red', fontSize: '0.9rem', backgroundColor: 'transparent', border: 'none' }}>Xóa</button>
+                        <button onClick={() => updateQuantity(item.name, 1)} style={{ padding: '2px 8px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'transparent', color: 'var(--text-color)', cursor: 'pointer' }}>+</button>
+                        <button onClick={() => removeFromCart(item.name)} style={{ marginLeft: 'auto', color: 'red', fontSize: '0.9rem', backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}>Xóa</button>
                       </div>
                     </div>
                   </div>

@@ -11,18 +11,24 @@ import ProductsPage from './components/ProductsPage';
 import { initScrollTracking } from './utils/tracking';
 import { AppProvider, AppContext } from './context/AppContext';
 
-function MainApp() {
-  const { isCheckout, isProductsPage } = useContext(AppContext);
+import AuthPage from './components/AuthPage';
+import FavoritesPage from './components/FavoritesPage';
 
-  return (
-    <div className="app-container">
-      <Navbar />
-      <main>
-        {isCheckout ? (
-          <Checkout />
-        ) : isProductsPage ? (
-          <ProductsPage />
-        ) : (
+function MainApp() {
+  const { currentView } = useContext(AppContext);
+
+  const renderView = () => {
+    switch (currentView) {
+      case 'checkout':
+        return <Checkout />;
+      case 'products':
+        return <ProductsPage />;
+      case 'auth':
+        return <AuthPage />;
+      case 'favorites':
+        return <FavoritesPage />;
+      default:
+        return (
           <>
             <Hero />
             <Features />
@@ -30,9 +36,17 @@ function MainApp() {
             <Ecommerce />
             <RegistrationForm />
           </>
-        )}
+        );
+    }
+  };
+
+  return (
+    <div className="app-container">
+      <Navbar />
+      <main>
+        {renderView()}
       </main>
-      {!isCheckout && <Chatbot />}
+      {currentView === 'home' && <Chatbot />}
       <footer style={{ textAlign: 'center', padding: '40px', borderTop: '1px solid var(--border-color)', marginTop: '40px' }}>
         <p>&copy; 2026 Bản quyền thuộc về Cao Minh Trung.</p>
       </footer>

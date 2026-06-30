@@ -70,7 +70,7 @@ const Chatbot = () => {
               value={input} 
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Nhập tin nhắn..."
+              placeholder="Nhập tin nhắn"
             />
             <button onClick={handleSend} disabled={isLoading}><Send size={20} /></button>
           </div>

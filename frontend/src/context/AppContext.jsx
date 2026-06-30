@@ -86,8 +86,7 @@ export const AppProvider = ({ children }) => {
     });
   };
 
-  const [isCheckout, setIsCheckout] = useState(false);
-  const [isProductsPage, setIsProductsPage] = useState(false);
+  const [currentView, setCurrentView] = useState('home'); // 'home', 'products', 'checkout', 'favorites', 'auth'
   const [user, setUser] = useState(null);
   
   const clearCart = () => setCart([]);
@@ -101,8 +100,7 @@ export const AppProvider = ({ children }) => {
       cart, addToCart, updateQuantity, removeFromCart, clearCart,
       favorites, toggleFavorite,
       viewedProducts, addViewedProduct,
-      isCheckout, setIsCheckout,
-      isProductsPage, setIsProductsPage,
+      currentView, setCurrentView,
       user, login, logout
     }}>
       {children}

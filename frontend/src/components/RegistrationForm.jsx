@@ -12,7 +12,6 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validation
     const phoneRegex = /^[0-9]{10,11}$/;
     if (!phoneRegex.test(formData.phone)) {
       setStatus('Số điện thoại không hợp lệ');
