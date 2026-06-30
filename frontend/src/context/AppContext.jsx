@@ -88,8 +88,12 @@ export const AppProvider = ({ children }) => {
 
   const [isCheckout, setIsCheckout] = useState(false);
   const [isProductsPage, setIsProductsPage] = useState(false);
+  const [user, setUser] = useState(null);
   
   const clearCart = () => setCart([]);
+
+  const login = (userData) => setUser(userData);
+  const logout = () => setUser(null);
 
   return (
     <AppContext.Provider value={{
@@ -98,7 +102,8 @@ export const AppProvider = ({ children }) => {
       favorites, toggleFavorite,
       viewedProducts, addViewedProduct,
       isCheckout, setIsCheckout,
-      isProductsPage, setIsProductsPage
+      isProductsPage, setIsProductsPage,
+      user, login, logout
     }}>
       {children}
     </AppContext.Provider>

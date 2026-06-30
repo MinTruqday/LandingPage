@@ -13,9 +13,13 @@ async def register_user(form: RegistrationForm, db=Depends(get_db)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/track")
-async def track_event(data: TrackingData, db=Depends(get_db)):
+async def track_behavior(data: TrackingData, db=Depends(get_db)):
     try:
         await db.tracking.insert_one(data.model_dump())
-        return {"status": "success", "message": "Ghi nhận sự kiện thành công"}
+        print(f"\nNgười dùng vừa thực hiện hành động: {data.action.upper()}")
+        print(f"  - Element: {data.element_id}")
+        print(f"  - URL: {data.url}")
+        print(f"  - Thời gian: {data.timestamp}\n")
+        return {"status": "success", "message": "Đã ghi nhận dữ liệu theo dõi"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

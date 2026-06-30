@@ -53,30 +53,72 @@ button {
 }
 
 nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
   height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   background-color: var(--nav-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 1000;
   border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
 }
 
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
 .nav-links a {
+  text-decoration: none;
   color: var(--text-color);
-  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-color);
+    padding: 20px;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
 }
 
 .hero {
@@ -308,6 +350,34 @@ body:not(.dark-mode) .hero-img, body:not(.dark-mode) .product-card img, body:not
 
 .product-card:hover {
   transform: translateY(-5px);
+}
+
+/* Skeleton Loading Styles */
+.skeleton {
+  background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-color) 50%, var(--border-color) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-img {
+  height: 250px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.skeleton-text {
+  height: 20px;
+}
+
+.skeleton-btn {
+  height: 40px;
+  border-radius: 20px;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .product-card img {

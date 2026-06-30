@@ -1,10 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
-import { Moon, Sun, ShoppingCart, X } from 'lucide-react';
+import { Moon, Sun, ShoppingCart, X, Menu, User, LogOut } from 'lucide-react';
+import AuthModal from './AuthModal';
 
 const Navbar = () => {
-  const { isDarkMode, toggleDarkMode, cart, updateQuantity, removeFromCart, setIsCheckout, setIsProductsPage } = useContext(AppContext);
+  const { isDarkMode, toggleDarkMode, cart, updateQuantity, removeFromCart, setIsCheckout, setIsProductsPage, user, login, logout } = useContext(AppContext);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
@@ -18,36 +21,59 @@ const Navbar = () => {
     setIsCheckout(true);
   };
 
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <>
       <nav>
-        <div className="logo" style={{ fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => {setIsCheckout(false); setIsProductsPage(false);}}>
+        <div className="logo" style={{ fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => {setIsCheckout(false); setIsProductsPage(false); closeMobileMenu();}}>
           iPhone 17 Pro
         </div>
-        <div className="nav-links">
-          <a href="#features" onClick={() => {setIsCheckout(false); setIsProductsPage(false);}}>Tính năng</a>
-          <a href="#specs" onClick={() => {setIsCheckout(false); setIsProductsPage(false);}}>Thông số</a>
-          <a href="#store" onClick={(e) => {e.preventDefault(); setIsCheckout(false); setIsProductsPage(true);}}>Sản phẩm</a>
-          <button onClick={toggleDarkMode} style={{ color: 'var(--text-color)', marginLeft: '10px' }}>
-            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', marginLeft: '10px' }}>
-            <button onClick={() => setIsCartOpen(true)} style={{ color: 'var(--text-color)' }}>
-              <ShoppingCart size={20} />
-            </button>
-            {cart.length > 0 && (
-              <span style={{
-                position: 'absolute', top: '-8px', right: '-8px',
-                backgroundColor: 'red', color: 'white', borderRadius: '50%',
-                width: '16px', height: '16px', fontSize: '10px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
-              }}>
-                {cart.reduce((total, item) => total + (item.quantity || 1), 0)}
-              </span>
+        
+        <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
+          <a href="#features" onClick={() => {setIsCheckout(false); setIsProductsPage(false); closeMobileMenu();}}>Tính năng</a>
+          <a href="#specs" onClick={() => {setIsCheckout(false); setIsProductsPage(false); closeMobileMenu();}}>Thông số</a>
+          <a href="#store" onClick={(e) => {e.preventDefault(); setIsCheckout(false); setIsProductsPage(true); closeMobileMenu();}}>Sản phẩm</a>
+          
+          <div className="nav-actions">
+            {user ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Hi, {user}</span>
+                <button onClick={logout} style={{ color: 'var(--text-color)' }}><LogOut size={18} /></button>
+              </div>
+            ) : (
+              <button onClick={() => {setIsAuthModalOpen(true); closeMobileMenu();}} style={{ color: 'var(--text-color)' }}>
+                <User size={20} />
+              </button>
             )}
+
+            <button onClick={toggleDarkMode} style={{ color: 'var(--text-color)' }}>
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <button onClick={() => {setIsCartOpen(true); closeMobileMenu();}} style={{ color: 'var(--text-color)' }}>
+                <ShoppingCart size={20} />
+              </button>
+              {cart.length > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-8px', right: '-8px',
+                  backgroundColor: 'red', color: 'white', borderRadius: '50%',
+                  width: '16px', height: '16px', fontSize: '10px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                  {cart.reduce((total, item) => total + (item.quantity || 1), 0)}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </nav>
+
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onLogin={login} />
 
       {isCartOpen && (
         <div className="cart-modal-overlay" onClick={() => setIsCartOpen(false)}>

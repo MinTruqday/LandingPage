@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 router = APIRouter()
-GROQ_API_KEY = os.getenv("Ggsk_ik9AUI8hoAXTD5kfxntoWGdyb3FYjGIrRpgUJzgafhyqhWRlt1iS")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "Ggsk_ik9AUI8hoAXTD5kfxntoWGdyb3FYjGIrRpgUJzgafhyqhWRlt1iS")
 
 @router.post("/chat")
 async def chat_with_groq(req: ChatRequest):

@@ -11,10 +11,18 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validation
+    const phoneRegex = /^[0-9]{10,11}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setStatus('Số điện thoại không hợp lệ');
+      return;
+    }
+    
     trackEvent('form_submit', 'registration_form', window.location.pathname);
     setStatus('Đang xử lý');
     try {
-      const response = await fetch('http://localhost:8001/api/webhook/register', {
+      const response = await fetch('/api/webhook/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -23,7 +31,7 @@ const RegistrationForm = () => {
         setStatus('Đăng ký thành công');
         setFormData({ name: '', email: '', phone: '' });
       } else {
-        setStatus('Có lỗi xảy ra');
+        setStatus('Có lỗi xảy ra từ máy chủ');
       }
     } catch (error) {
       setStatus('Lỗi kết nối máy chủ');

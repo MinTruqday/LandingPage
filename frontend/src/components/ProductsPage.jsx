@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { trackEvent } from '../utils/tracking';
@@ -8,6 +8,13 @@ import { allProducts } from '../data/products';
 const ProductsPage = () => {
   const { addToCart, favorites, toggleFavorite, addViewedProduct, setView } = useContext(AppContext);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate network delay for skeleton loading
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
@@ -34,34 +41,48 @@ const ProductsPage = () => {
         </div>
 
         <div className="product-grid" style={{ padding: 0 }}>
-          {allProducts.map(product => (
-            <div 
-              key={product.id} 
-              className="product-card"
-              style={{ cursor: 'pointer', backgroundColor: 'var(--secondary-bg)' }}
-              onMouseEnter={() => addViewedProduct(product.id)}
-              onClick={() => handleProductClick(product)}
-            >
-              <img src={product.image} alt={product.name} loading="lazy" />
-              <h3 style={{ fontSize: '1.1rem' }}>{product.name}</h3>
-              <p style={{ color: 'var(--primary-color)', margin: '10px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
-              <div className="product-actions">
-                <button 
-                  className="btn" 
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                  onClick={(e) => handleAddToCart(e, product)}
-                >
-                  <ShoppingBag size={18} /> Thêm vào giỏ
-                </button>
-                <button 
-                  className={`btn-icon ${favorites.includes(product.id) ? 'active' : ''}`}
-                  onClick={(e) => handleToggleFavorite(e, product)}
-                >
-                  <Heart size={20} fill={favorites.includes(product.id) ? 'currentColor' : 'none'} />
-                </button>
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="product-card skeleton-card">
+                <div className="skeleton skeleton-img"></div>
+                <div className="skeleton skeleton-text" style={{ width: '80%', margin: '15px auto' }}></div>
+                <div className="skeleton skeleton-text" style={{ width: '50%', margin: '0 auto' }}></div>
+                <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                  <div className="skeleton skeleton-btn" style={{ flex: 1 }}></div>
+                  <div className="skeleton skeleton-btn" style={{ width: '40px' }}></div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            allProducts.map(product => (
+              <div 
+                key={product.id} 
+                className="product-card"
+                style={{ cursor: 'pointer', backgroundColor: 'var(--secondary-bg)' }}
+                onMouseEnter={() => addViewedProduct(product.id)}
+                onClick={() => handleProductClick(product)}
+              >
+                <img src={product.image} alt={product.name} loading="lazy" />
+                <h3 style={{ fontSize: '1.1rem' }}>{product.name}</h3>
+                <p style={{ color: 'var(--primary-color)', margin: '10px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
+                <div className="product-actions">
+                  <button 
+                    className="btn" 
+                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                    onClick={(e) => handleAddToCart(e, product)}
+                  >
+                    <ShoppingBag size={18} /> Thêm vào giỏ
+                  </button>
+                  <button 
+                    className={`btn-icon ${favorites.includes(product.id) ? 'active' : ''}`}
+                    onClick={(e) => handleToggleFavorite(e, product)}
+                  >
+                    <Heart size={20} fill={favorites.includes(product.id) ? 'currentColor' : 'none'} />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
       
