@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import webhook, chatbot
+from routes import webhook, chatbot, products
 
 app = FastAPI(title="iPhone 17 Pro Landing Page API")
 
@@ -14,6 +14,7 @@ app.add_middleware(
 
 app.include_router(webhook.router, prefix="/api/webhook", tags=["webhook"])
 app.include_router(chatbot.router, prefix="/api/chatbot", tags=["chatbot"])
+app.include_router(products.router, prefix="/api/products", tags=["products"])
 
 @app.get("/")
 def read_root():

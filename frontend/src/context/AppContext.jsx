@@ -14,10 +14,26 @@ export const AppProvider = ({ children }) => {
     const saved = localStorage.getItem('favorites');
     return saved ? JSON.parse(saved) : [];
   });
+  const [productsData, setProductsData] = useState([]);
   const [viewedProducts, setViewedProducts] = useState(() => {
     const saved = localStorage.getItem('viewed');
     return saved ? JSON.parse(saved) : [];
   });
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/products');
+        if (res.ok) {
+          const data = await res.json();
+          setProductsData(data);
+        }
+      } catch (e) {
+        console.error("Error fetching products", e);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('darkMode', isDarkMode);
@@ -101,7 +117,8 @@ export const AppProvider = ({ children }) => {
       favorites, toggleFavorite,
       viewedProducts, addViewedProduct,
       currentView, setCurrentView,
-      user, login, logout
+      user, login, logout,
+      productsData
     }}>
       {children}
     </AppContext.Provider>

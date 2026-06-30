@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
-import { allProducts } from '../data/products';
 
 const ViewedProducts = () => {
-  const { viewedProducts, setCurrentView } = useContext(AppContext);
+  const { viewedProducts, setCurrentView, productsData } = useContext(AppContext);
 
-  if (viewedProducts.length === 0) return null;
+  if (viewedProducts.length === 0 || !productsData || productsData.length === 0) return null;
 
-  const recentProducts = viewedProducts.slice().reverse().map(id => allProducts.find(p => p.id === id)).filter(Boolean);
+  const recentProducts = viewedProducts.slice().reverse().map(id => productsData.find(p => p.id === id)).filter(Boolean);
 
   return (
     <div style={{ marginTop: '60px', padding: '40px 0', borderTop: '1px solid var(--border-color)' }}>

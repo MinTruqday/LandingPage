@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { trackEvent } from '../utils/tracking';
-import { featuredProducts } from '../data/products';
 
 const Ecommerce = () => {
-  const { addToCart, favorites, toggleFavorite, user, setCurrentView } = useContext(AppContext);
+  const { addToCart, favorites, toggleFavorite, user, setCurrentView, productsData } = useContext(AppContext);
+  const featuredProducts = productsData.slice(0, 4);
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();

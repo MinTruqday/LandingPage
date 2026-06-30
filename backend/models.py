@@ -18,3 +18,10 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: List[ChatMessage]
+
+class Product(BaseModel):
+    id: str
+    name: str
+    price: str
+    image: str
+    category: str

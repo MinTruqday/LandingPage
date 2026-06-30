@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Heart, ShoppingBag } from 'lucide-react';
-import { allProducts } from '../data/products';
 
 const FavoritesPage = () => {
-  const { favorites, toggleFavorite, addToCart } = useContext(AppContext);
+  const { favorites, toggleFavorite, addToCart, productsData } = useContext(AppContext);
 
-  const favoriteProducts = allProducts.filter(product => favorites.includes(product.id));
+  const favoriteProducts = productsData.filter(product => favorites.includes(product.id));
 
   return (
     <div style={{ paddingTop: '80px', paddingBottom: '50px', backgroundColor: 'var(--bg-color)', minHeight: '100vh' }}>

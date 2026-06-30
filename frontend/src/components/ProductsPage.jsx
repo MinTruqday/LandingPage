@@ -4,10 +4,9 @@ import { Heart, ShoppingBag } from 'lucide-react';
 import { trackEvent } from '../utils/tracking';
 import ProductDetail from './ProductDetail';
 import ViewedProducts from './ViewedProducts';
-import { allProducts } from '../data/products';
 
 const ProductsPage = () => {
-  const { addToCart, favorites, toggleFavorite, addViewedProduct, user, setCurrentView } = useContext(AppContext);
+  const { addToCart, favorites, toggleFavorite, addViewedProduct, user, setCurrentView, productsData } = useContext(AppContext);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -62,7 +61,7 @@ const ProductsPage = () => {
               </div>
             ))
           ) : (
-            allProducts.map(product => (
+            productsData.map(product => (
               <div 
                 key={product.id} 
                 className="product-card"
