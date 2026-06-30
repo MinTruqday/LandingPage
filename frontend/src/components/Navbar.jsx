@@ -44,31 +44,29 @@ const Navbar = () => {
                 <button onClick={logout} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}><LogOut size={18} /></button>
               </div>
             ) : (
-              <button onClick={() => {setCurrentView('auth'); closeMobileMenu();}} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
-                <User size={20} />
+              <button onClick={() => {setCurrentView('auth'); closeMobileMenu();}} style={{ color: 'var(--text-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '5px 15px', background: 'none', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold' }}>
+                Đăng nhập
               </button>
             )}
             
-            <button onClick={() => {
-              if (user) {
+            {user && (
+              <button onClick={() => {
                 setCurrentView('favorites');
-              } else {
-                setCurrentView('auth');
-              }
-              closeMobileMenu();
-            }} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer', position: 'relative' }}>
-              <Heart size={20} />
-              {favorites.length > 0 && (
-                <span style={{
-                  position: 'absolute', top: '-8px', right: '-8px',
-                  backgroundColor: 'var(--primary-color)', color: 'white', borderRadius: '50%',
-                  width: '16px', height: '16px', fontSize: '10px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>
-                  {favorites.length}
-                </span>
-              )}
-            </button>
+                closeMobileMenu();
+              }} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer', position: 'relative' }}>
+                <Heart size={20} />
+                {favorites.length > 0 && (
+                  <span style={{
+                    position: 'absolute', top: '-8px', right: '-8px',
+                    backgroundColor: 'var(--primary-color)', color: 'white', borderRadius: '50%',
+                    width: '16px', height: '16px', fontSize: '10px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    {favorites.length}
+                  </span>
+                )}
+              </button>
+            )}
 
             <button onClick={toggleDarkMode} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}

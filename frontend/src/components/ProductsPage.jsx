@@ -66,8 +66,10 @@ const ProductsPage = () => {
                 key={product.id} 
                 className="product-card"
                 style={{ cursor: 'pointer', backgroundColor: 'var(--secondary-bg)' }}
-                onMouseEnter={() => addViewedProduct(product.id)}
-                onClick={() => handleProductClick(product)}
+                onClick={() => {
+                  addViewedProduct(product.id);
+                  handleProductClick(product);
+                }}
               >
                 <img src={product.image} alt={product.name} loading="lazy" />
                 <h3 style={{ fontSize: '1.1rem' }}>{product.name}</h3>

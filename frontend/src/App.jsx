@@ -42,14 +42,16 @@ function MainApp() {
 
   return (
     <div className="app-container">
-      <Navbar />
+      {currentView !== 'auth' && <Navbar />}
       <main>
         {renderView()}
       </main>
       {currentView === 'home' && <Chatbot />}
-      <footer style={{ textAlign: 'center', padding: '40px', borderTop: '1px solid var(--border-color)', marginTop: '40px' }}>
-        <p>&copy; 2026 Bản quyền thuộc về Cao Minh Trung.</p>
-      </footer>
+      {currentView !== 'auth' && (
+        <footer style={{ textAlign: 'center', padding: '40px', borderTop: '1px solid var(--border-color)', marginTop: '40px' }}>
+          <p>&copy; 2026 Bản quyền thuộc về Cao Minh Trung.</p>
+        </footer>
+      )}
     </div>
   );
 }

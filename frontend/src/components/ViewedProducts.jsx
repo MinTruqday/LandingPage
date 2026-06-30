@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const ViewedProducts = () => {
-  const { viewedProducts, setCurrentView, productsData } = useContext(AppContext);
+  const { viewedProducts, setCurrentView, productsData, user } = useContext(AppContext);
 
-  if (viewedProducts.length === 0 || !productsData || productsData.length === 0) return null;
+  if (!user || viewedProducts.length === 0 || !productsData || productsData.length === 0) return null;
 
   const recentProducts = viewedProducts.slice().reverse().map(id => productsData.find(p => p.id === id)).filter(Boolean);
 
