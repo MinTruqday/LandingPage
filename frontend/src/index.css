@@ -352,7 +352,6 @@ body:not(.dark-mode) .hero-img, body:not(.dark-mode) .product-card img, body:not
   transform: translateY(-5px);
 }
 
-/* Skeleton Loading Styles */
 .skeleton {
   background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-color) 50%, var(--border-color) 75%);
   background-size: 200% 100%;
