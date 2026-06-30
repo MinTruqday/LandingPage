@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Moon, Sun, ShoppingCart, X, Menu, User, LogOut, Heart } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
-  const { isDarkMode, toggleDarkMode, cart, updateQuantity, removeFromCart, setCurrentView, currentView, user, login, logout, favorites } = useContext(AppContext);
+  const { isDarkMode, toggleDarkMode, cart, updateQuantity, removeFromCart, setCurrentView, currentView, user, logout, favorites } = useContext(AppContext);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -17,6 +18,11 @@ const Navbar = () => {
   const handleCheckoutClick = () => {
     setIsCartOpen(false);
     setCurrentView('checkout');
+  };
+
+  const handleLogout = () => {
+    logout();
+    toast.success('Đã đăng xuất');
   };
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -41,7 +47,7 @@ const Navbar = () => {
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Hi, {user}</span>
-                <button onClick={logout} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}><LogOut size={18} /></button>
+                <button onClick={handleLogout} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}><LogOut size={18} /></button>
               </div>
             ) : (
               <button onClick={() => {setCurrentView('auth'); closeMobileMenu();}} style={{ color: 'var(--text-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '5px 15px', background: 'none', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold' }}>

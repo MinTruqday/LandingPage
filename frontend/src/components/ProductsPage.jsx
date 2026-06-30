@@ -4,6 +4,7 @@ import { Heart, ShoppingBag } from 'lucide-react';
 import { trackEvent } from '../utils/tracking';
 import ProductDetail from './ProductDetail';
 import ViewedProducts from './ViewedProducts';
+import { toast } from 'react-hot-toast';
 
 const ProductsPage = () => {
   const { addToCart, favorites, toggleFavorite, addViewedProduct, user, setCurrentView, productsData } = useContext(AppContext);
@@ -22,6 +23,7 @@ const ProductsPage = () => {
       return;
     }
     addToCart(product);
+    toast.success(`Đã thêm ${product.name} vào giỏ hàng`);
     trackEvent('add_to_cart', product.id, '/products');
   };
 

@@ -13,6 +13,7 @@ import { AppProvider, AppContext } from './context/AppContext';
 
 import AuthPage from './components/AuthPage';
 import FavoritesPage from './components/FavoritesPage';
+import { Toaster } from 'react-hot-toast';
 
 function MainApp() {
   const { currentView } = useContext(AppContext);
@@ -63,6 +64,16 @@ function App() {
 
   return (
     <AppProvider>
+      <Toaster 
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: 'var(--secondary-bg)',
+            color: 'var(--text-color)',
+            border: '1px solid var(--border-color)'
+          }
+        }}
+      />
       <MainApp />
     </AppProvider>
   );

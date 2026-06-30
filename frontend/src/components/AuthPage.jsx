@@ -1,15 +1,24 @@
 import React, { useState, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { ArrowLeft, Smartphone } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '', name: '' });
   const { login, setCurrentView } = useContext(AppContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isForgotPassword) {
+      toast.success('Đã gửi liên kết khôi phục mật khẩu vào email của bạn!');
+      setIsForgotPassword(false);
+      return;
+    }
+    
     login(formData.name || formData.email.split('@')[0]);
+    toast.success(isLogin ? 'Đăng nhập thành công!' : 'Đăng ký thành công!');
     setCurrentView('home');
   };
 
@@ -63,14 +72,16 @@ const AuthPage = () => {
 
         <div style={{ width: '100%', maxWidth: '400px' }}>
           <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '10px' }}>
-            {isLogin ? 'Chào mừng trở lại' : 'Tạo tài khoản'}
+            {isForgotPassword ? 'Khôi phục mật khẩu' : isLogin ? 'Chào mừng trở lại' : 'Tạo tài khoản'}
           </h2>
           <p style={{ color: 'var(--text-color)', opacity: 0.7, marginBottom: '40px' }}>
-            {isLogin ? 'Vui lòng điền thông tin để đăng nhập vào hệ thống.' : 'Tham gia cùng chúng tôi để trải nghiệm ngay hôm nay.'}
+            {isForgotPassword 
+              ? 'Nhập email của bạn và chúng tôi sẽ gửi liên kết khôi phục mật khẩu.' 
+              : isLogin ? 'Vui lòng điền thông tin để đăng nhập vào hệ thống.' : 'Tham gia cùng chúng tôi để trải nghiệm ngay hôm nay.'}
           </p>
 
           <form onSubmit={handleSubmit}>
-            {!isLogin && (
+            {!isLogin && !isForgotPassword && (
               <div className="form-group" style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Họ và tên</label>
                 <input 
@@ -94,32 +105,48 @@ const AuthPage = () => {
                 style={{ width: '100%', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-color)', backgroundColor: 'var(--secondary-bg)', color: 'var(--text-color)', fontSize: '1rem' }} 
               />
             </div>
-            <div className="form-group" style={{ marginBottom: '30px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Mật khẩu</label>
-              <input 
-                type="password" 
-                name="password" 
-                required 
-                value={formData.password} 
-                onChange={handleChange} 
-                style={{ width: '100%', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-color)', backgroundColor: 'var(--secondary-bg)', color: 'var(--text-color)', fontSize: '1rem' }} 
-              />
-            </div>
+            {!isForgotPassword && (
+              <div className="form-group" style={{ marginBottom: '30px', position: 'relative' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                  <label style={{ fontWeight: '500' }}>Mật khẩu</label>
+                  {isLogin && (
+                    <button 
+                      type="button"
+                      onClick={() => setIsForgotPassword(true)}
+                      style={{ color: 'var(--primary-color)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.9rem', fontWeight: '500' }}
+                    >
+                      Quên mật khẩu?
+                    </button>
+                  )}
+                </div>
+                <input 
+                  type="password" 
+                  name="password" 
+                  required 
+                  value={formData.password} 
+                  onChange={handleChange} 
+                  style={{ width: '100%', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-color)', backgroundColor: 'var(--secondary-bg)', color: 'var(--text-color)', fontSize: '1rem' }} 
+                />
+              </div>
+            )}
             
             <button type="submit" className="btn" style={{ width: '100%', padding: '14px', fontSize: '1.1rem', borderRadius: '10px', fontWeight: 'bold' }}>
-              {isLogin ? 'Đăng nhập' : 'Đăng ký'}
+              {isForgotPassword ? 'Gửi liên kết' : isLogin ? 'Đăng nhập' : 'Đăng ký'}
             </button>
           </form>
 
           <div style={{ marginTop: '30px', textAlign: 'center', fontSize: '1rem' }}>
             <span style={{ color: 'var(--text-color)', opacity: 0.8 }}>
-              {isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản?'}
+              {isForgotPassword ? 'Đã nhớ mật khẩu?' : isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản?'}
             </span>
             <button 
-              onClick={() => setIsLogin(!isLogin)}
+              onClick={() => {
+                setIsForgotPassword(false);
+                setIsLogin(isForgotPassword ? true : !isLogin);
+              }}
               style={{ color: 'var(--primary-color)', marginLeft: '8px', fontWeight: 'bold', border: 'none', background: 'none', cursor: 'pointer', fontSize: '1rem' }}
             >
-              {isLogin ? 'Đăng ký ngay' : 'Đăng nhập'}
+              {isForgotPassword ? 'Đăng nhập' : isLogin ? 'Đăng ký ngay' : 'Đăng nhập'}
             </button>
           </div>
         </div>

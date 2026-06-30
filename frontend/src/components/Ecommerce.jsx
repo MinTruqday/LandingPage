@@ -3,6 +3,8 @@ import { AppContext } from '../context/AppContext';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { trackEvent } from '../utils/tracking';
 
+import toast from 'react-hot-toast';
+
 const Ecommerce = () => {
   const { addToCart, favorites, toggleFavorite, user, setCurrentView, productsData } = useContext(AppContext);
   const featuredProducts = productsData.slice(0, 3);
@@ -14,6 +16,7 @@ const Ecommerce = () => {
       return;
     }
     addToCart(product);
+    toast.success(`Đã thêm ${product.name} vào giỏ hàng`);
     trackEvent('add_to_cart', product.id, '/ecommerce');
   };
 
