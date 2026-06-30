@@ -21,7 +21,7 @@ const RegistrationForm = () => {
     trackEvent('form_submit', 'registration_form', window.location.pathname);
     setStatus('Đang xử lý');
     try {
-      const response = await fetch('/api/webhook/register', {
+      const response = await fetch('http://localhost:8000/api/webhook/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

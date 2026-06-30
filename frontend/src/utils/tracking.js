@@ -1,6 +1,6 @@
 export const trackEvent = async (eventType, elementId, path) => {
   try {
-    await fetch("http://localhost:8001/api/webhook/track", {
+    await fetch("http://localhost:8000/api/webhook/track", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
