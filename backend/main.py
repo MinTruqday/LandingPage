@@ -4,10 +4,9 @@ from routes import webhook, chatbot
 
 app = FastAPI(title="iPhone 17 Pro Landing Page API")
 
-# Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

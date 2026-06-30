@@ -1,12 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
+import Specs from './components/Specs';
 import Ecommerce from './components/Ecommerce';
 import RegistrationForm from './components/RegistrationForm';
 import Chatbot from './components/Chatbot';
+import Checkout from './components/Checkout';
+import ProductsPage from './components/ProductsPage';
 import { initScrollTracking } from './utils/tracking';
-import { AppProvider } from './context/AppContext';
+import { AppProvider, AppContext } from './context/AppContext';
+
+function MainApp() {
+  const { isCheckout, isProductsPage } = useContext(AppContext);
+
+  return (
+    <div className="app-container">
+      <Navbar />
+      <main>
+        {isCheckout ? (
+          <Checkout />
+        ) : isProductsPage ? (
+          <ProductsPage />
+        ) : (
+          <>
+            <Hero />
+            <Features />
+            <Specs />
+            <Ecommerce />
+            <RegistrationForm />
+          </>
+        )}
+      </main>
+      {!isCheckout && <Chatbot />}
+      <footer style={{ textAlign: 'center', padding: '40px', borderTop: '1px solid var(--border-color)', marginTop: '40px' }}>
+        <p>&copy; 2026 Bản quyền thuộc về Cao Minh Trung.</p>
+      </footer>
+    </div>
+  );
+}
 
 function App() {
   useEffect(() => {
@@ -15,19 +47,7 @@ function App() {
 
   return (
     <AppProvider>
-      <div className="app-container">
-        <Navbar />
-        <main>
-          <Hero />
-          <Features />
-          <Ecommerce />
-          <RegistrationForm />
-        </main>
-        <Chatbot />
-        <footer style={{ textAlign: 'center', padding: '40px', borderTop: '1px solid var(--border-color)', marginTop: '40px' }}>
-          <p>&copy; 2026 Bản quyền thuộc về Công ty. Landing Page iPhone 17 Pro.</p>
-        </footer>
-      </div>
+      <MainApp />
     </AppProvider>
   );
 }

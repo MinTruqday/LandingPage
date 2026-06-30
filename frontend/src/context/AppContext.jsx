@@ -43,7 +43,29 @@ export const AppProvider = ({ children }) => {
   const toggleDarkMode = () => setIsDarkMode(prev => !prev);
   
   const addToCart = (product) => {
-    setCart(prev => [...prev, product]);
+    setCart(prevCart => {
+      const existingProduct = prevCart.find(item => item.name === product.name);
+      if (existingProduct) {
+        return prevCart.map(item =>
+          item.name === product.name ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+      return [...prevCart, { ...product, quantity: 1 }];
+    });
+  };
+
+  const updateQuantity = (productName, delta) => {
+    setCart(prevCart => prevCart.map(item => {
+      if (item.name === productName) {
+        const newQuantity = item.quantity + delta;
+        return { ...item, quantity: newQuantity > 0 ? newQuantity : 1 };
+      }
+      return item;
+    }));
+  };
+
+  const removeFromCart = (productName) => {
+    setCart(prevCart => prevCart.filter(item => item.name !== productName));
   };
 
   const toggleFavorite = (productId) => {
@@ -58,18 +80,25 @@ export const AppProvider = ({ children }) => {
   const addViewedProduct = (productId) => {
     setViewedProducts(prev => {
       if (!prev.includes(productId)) {
-        return [...prev, productId].slice(-5); // Keep last 5
+        return [...prev, productId].slice(-5);
       }
       return prev;
     });
   };
 
+  const [isCheckout, setIsCheckout] = useState(false);
+  const [isProductsPage, setIsProductsPage] = useState(false);
+  
+  const clearCart = () => setCart([]);
+
   return (
     <AppContext.Provider value={{
       isDarkMode, toggleDarkMode,
-      cart, addToCart,
+      cart, addToCart, updateQuantity, removeFromCart, clearCart,
       favorites, toggleFavorite,
-      viewedProducts, addViewedProduct
+      viewedProducts, addViewedProduct,
+      isCheckout, setIsCheckout,
+      isProductsPage, setIsProductsPage
     }}>
       {children}
     </AppContext.Provider>

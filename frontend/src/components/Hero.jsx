@@ -25,7 +25,7 @@ const Hero = () => {
         </motion.p>
       </motion.div>
       <motion.img 
-        src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-bluetitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692846360609" 
+        src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-bluetitanium?wid=5120&hei=2880&fmt=png-alpha&qlt=80&.v=1692846360609" 
         alt="iPhone 17 Pro" 
         className="hero-img"
         initial={{ scale: 0.8, opacity: 0 }}

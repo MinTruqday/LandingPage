@@ -7,19 +7,26 @@ from dotenv import load_dotenv
 load_dotenv()
 
 router = APIRouter()
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_API_KEY = os.getenv("Ggsk_ik9AUI8hoAXTD5kfxntoWGdyb3FYjGIrRpgUJzgafhyqhWRlt1iS")
 
 @router.post("/chat")
 async def chat_with_groq(req: ChatRequest):
     if not GROQ_API_KEY:
-        # Fallback if no API key is provided
         return {"response": "Xin chào! Đây là phản hồi giả lập vì GROQ_API_KEY chưa được cấu hình. Bạn cần iPhone 17 Pro Max phiên bản nào?"}
     
     try:
+        from rag import rag_system
+        user_query = req.messages[-1].content
+        context = rag_system.retrieve(user_query)
+        
+        system_content = "Bạn là nhân viên tư vấn bán hàng cho sản phẩm iPhone 17 Pro tại Việt Nam. Trả lời ngắn gọn, lịch sự."
+        if context:
+            system_content += f"\n\nSử dụng thông tin sau để trả lời:\n{context}"
+            
         client = AsyncGroq(api_key=GROQ_API_KEY)
         system_prompt = {
             "role": "system",
-            "content": "Bạn là nhân viên tư vấn bán hàng cho sản phẩm iPhone 17 Pro và iPhone 17 Pro Max tại Việt Nam. Hãy trả lời ngắn gọn, lịch sự và chuyên nghiệp. Không sử dụng emoji."
+            "content": system_content
         }
         
         messages = [system_prompt] + [msg.dict() for msg in req.messages]
