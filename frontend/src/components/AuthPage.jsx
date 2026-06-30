@@ -28,7 +28,6 @@ const AuthPage = () => {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', width: '100vw', margin: 0, padding: 0 }}>
-      {/* Left Side - Image/Gradient */}
       <div style={{ 
         flex: 1, 
         background: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)', 
@@ -41,7 +40,6 @@ const AuthPage = () => {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Abstract decorative circles */}
         <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', filter: 'blur(40px)' }}></div>
         <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255,255,255,0.03)', filter: 'blur(60px)' }}></div>
         
@@ -52,7 +50,6 @@ const AuthPage = () => {
         </p>
       </div>
 
-      {/* Right Side - Form */}
       <div style={{ 
         flex: 1, 
         backgroundColor: 'var(--bg-color)', 
@@ -152,7 +149,6 @@ const AuthPage = () => {
         </div>
       </div>
 
-      {/* Media query for mobile responsive split screen */}
       <style dangerouslySetInnerHTML={{__html: `
         @media (max-width: 768px) {
           div[style*="display: flex; min-height: 100vh; width: 100vw;"] {

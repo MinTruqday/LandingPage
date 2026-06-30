@@ -103,7 +103,7 @@ export const AppProvider = ({ children }) => {
     });
   };
 
-  const [currentView, setCurrentView] = useState('home'); // 'home', 'products', 'checkout', 'favorites', 'auth'
+  const [currentView, setCurrentView] = useState('home');
   const [user, setUser] = useState(null);
   
   const clearCart = () => setCart([]);
