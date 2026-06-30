@@ -5,7 +5,7 @@ import { trackEvent } from '../utils/tracking';
 
 const Ecommerce = () => {
   const { addToCart, favorites, toggleFavorite, user, setCurrentView, productsData } = useContext(AppContext);
-  const featuredProducts = productsData.slice(0, 4);
+  const featuredProducts = productsData.slice(0, 3);
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
