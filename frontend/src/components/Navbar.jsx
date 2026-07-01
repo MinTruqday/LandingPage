@@ -39,9 +39,11 @@ const Navbar = () => {
         </button>
 
         <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
-          <a href="#features" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Tính năng</a>
-          <a href="#specs" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Thông số</a>
-          <a href="#store" onClick={(e) => {e.preventDefault(); setCurrentView('products'); closeMobileMenu();}}>Sản phẩm</a>
+          <li><a href="#features" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Tính năng</a></li>
+          <li><a href="#specs" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Thông số</a></li>
+          <li><a href="#preorder" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Đặt trước</a></li>
+          <li><a href="#products" onClick={(e) => {e.preventDefault(); setCurrentView('products'); closeMobileMenu();}}>Sản phẩm</a></li>
+          <li><a href="#admin" onClick={(e) => {e.preventDefault(); setCurrentView('admin-tracking'); closeMobileMenu();}} style={{ color: 'var(--primary-color)' }}>Tracking</a></li>
           
           <div className="nav-actions">
             {user ? (

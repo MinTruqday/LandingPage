@@ -12,6 +12,7 @@ import { AppProvider, AppContext } from './context/AppContext';
 
 import AuthPage from './components/AuthPage';
 import FavoritesPage from './components/FavoritesPage';
+import AdminTracking from './components/AdminTracking';
 import { Toaster } from 'react-hot-toast';
 
 const Chatbot = lazy(() => import('./components/Chatbot'));
@@ -29,6 +30,8 @@ function MainApp() {
         return <AuthPage />;
       case 'favorites':
         return <FavoritesPage />;
+      case 'admin-tracking':
+        return <AdminTracking />;
       default:
         return (
           <>
