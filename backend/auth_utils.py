@@ -1,6 +1,5 @@
 import os
 from datetime import datetime, timedelta
-from passlib.context import CryptContext
 import jwt
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "landingpage")
