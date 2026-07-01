@@ -1,10 +1,25 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
 from typing import Optional, List
+import re
 
 class RegistrationForm(BaseModel):
     name: str
     email: EmailStr
     phone: str
+    
+    @field_validator('phone')
+    @classmethod
+    def validate_phone(cls, v):
+        if not re.match(r'^(0[3|5|7|8|9])+([0-9]{8})$', v):
+            raise ValueError('Số điện thoại không hợp lệ (phải bắt đầu bằng 03, 05, 07, 08, 09 và có 10 số)')
+        return v
+        
+    @field_validator('name')
+    @classmethod
+    def validate_name(cls, v):
+        if len(v.strip()) < 2:
+            raise ValueError('Tên phải có ít nhất 2 ký tự')
+        return v
 
 class TrackingData(BaseModel):
     event_type: str
