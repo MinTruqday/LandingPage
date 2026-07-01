@@ -39,10 +39,10 @@ const Navbar = () => {
         </button>
 
         <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
-          <li><a href="#features" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Tính năng</a></li>
-          <li><a href="#specs" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Thông số</a></li>
-          <li><a href="#preorder" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Đặt trước</a></li>
-          <li><a href="#products" onClick={(e) => {e.preventDefault(); setCurrentView('products'); closeMobileMenu();}}>Sản phẩm</a></li>
+          <a href="#features" onClick={(e) => {e.preventDefault(); setCurrentView('home'); closeMobileMenu();}}>Tính năng</a>
+          <a href="#specs" onClick={(e) => {e.preventDefault(); setCurrentView('home'); closeMobileMenu();}}>Thông số</a>
+          <a href="#preorder" onClick={(e) => {e.preventDefault(); setCurrentView('home'); closeMobileMenu();}}>Đặt trước</a>
+          <a href="#products" onClick={(e) => {e.preventDefault(); setCurrentView('products'); closeMobileMenu();}}>Sản phẩm</a>
           
           <div className="nav-actions">
             {user ? (
