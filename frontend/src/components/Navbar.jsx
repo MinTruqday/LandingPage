@@ -43,7 +43,6 @@ const Navbar = () => {
           <li><a href="#specs" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Thông số</a></li>
           <li><a href="#preorder" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Đặt trước</a></li>
           <li><a href="#products" onClick={(e) => {e.preventDefault(); setCurrentView('products'); closeMobileMenu();}}>Sản phẩm</a></li>
-          <li><a href="#admin" onClick={(e) => {e.preventDefault(); setCurrentView('admin-tracking'); closeMobileMenu();}} style={{ color: 'var(--primary-color)' }}>Tracking</a></li>
           
           <div className="nav-actions">
             {user ? (
