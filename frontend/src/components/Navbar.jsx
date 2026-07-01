@@ -41,7 +41,6 @@ const Navbar = () => {
         <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
           <a href="#features" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Tính năng</a>
           <a href="#specs" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Thông số</a>
-          <a href="#preorder" onClick={() => {setCurrentView('home'); closeMobileMenu();}}>Đặt trước</a>
           <a href="#products" onClick={(e) => {e.preventDefault(); setCurrentView('products'); closeMobileMenu();}}>Sản phẩm</a>
           
           <div className="nav-actions">
@@ -66,8 +65,9 @@ const Navbar = () => {
                   <span style={{
                     position: 'absolute', top: '-8px', right: '-8px',
                     backgroundColor: 'var(--primary-color)', color: 'white', borderRadius: '50%',
-                    width: '16px', height: '16px', fontSize: '10px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    minWidth: '18px', height: '18px', fontSize: '10px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    padding: '0 4px', lineHeight: '1'
                   }}>
                     {favorites.length}
                   </span>
@@ -86,8 +86,9 @@ const Navbar = () => {
                 <span style={{
                   position: 'absolute', top: '-8px', right: '-8px',
                   backgroundColor: 'red', color: 'white', borderRadius: '50%',
-                  width: '16px', height: '16px', fontSize: '10px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  minWidth: '18px', height: '18px', fontSize: '10px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  padding: '0 4px', lineHeight: '1'
                 }}>
                   {cart.reduce((total, item) => total + (item.quantity || 1), 0)}
                 </span>
@@ -117,9 +118,9 @@ const Navbar = () => {
                       <h4>{item.name}</h4>
                       <p style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>{item.price}</p>
                       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px', gap: '10px' }}>
-                        <button onClick={() => updateQuantity(item.name, -1)} style={{ padding: '2px 8px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'transparent', color: 'var(--text-color)', cursor: 'pointer' }}>-</button>
-                        <span>{item.quantity || 1}</span>
-                        <button onClick={() => updateQuantity(item.name, 1)} style={{ padding: '2px 8px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'transparent', color: 'var(--text-color)', cursor: 'pointer' }}>+</button>
+                        <button onClick={() => updateQuantity(item.name, -1)} style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'transparent', color: 'var(--text-color)', cursor: 'pointer' }}>-</button>
+                        <span style={{ minWidth: '20px', textAlign: 'center' }}>{item.quantity || 1}</span>
+                        <button onClick={() => updateQuantity(item.name, 1)} style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'transparent', color: 'var(--text-color)', cursor: 'pointer' }}>+</button>
                         <button onClick={() => removeFromCart(item.name)} style={{ marginLeft: 'auto', color: 'red', fontSize: '0.9rem', backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}>Xóa</button>
                       </div>
                     </div>

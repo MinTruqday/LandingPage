@@ -39,8 +39,7 @@ const AuthPage = () => {
       if (res.ok) {
         toast.success(isLogin ? 'Đăng nhập thành công!' : 'Đăng ký thành công!', { id: loadingToast });
         login(data.user_name, data.access_token, data.refresh_token);
-        
-        // Add small delay so user can see the toast before redirect
+               
         setTimeout(() => {
           setCurrentView('home');
         }, 1200);

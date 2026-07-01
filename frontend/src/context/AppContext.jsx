@@ -74,11 +74,10 @@ export const AppProvider = ({ children }) => {
   const updateQuantity = (productName, delta) => {
     setCart(prevCart => prevCart.map(item => {
       if (item.name === productName) {
-        const newQuantity = item.quantity + delta;
-        return { ...item, quantity: newQuantity > 0 ? newQuantity : 1 };
+        return { ...item, quantity: item.quantity + delta };
       }
       return item;
-    }));
+    }).filter(item => item.quantity > 0));
   };
 
   const removeFromCart = (productName) => {
@@ -127,9 +126,13 @@ export const AppProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setTokens(null);
+    setFavorites([]);
+    setCart([]);
     localStorage.removeItem('user_name');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('favorites');
+    localStorage.removeItem('cart');
   };
 
   return (
