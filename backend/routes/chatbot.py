@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 router = APIRouter()
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "Ggsk_ik9AUI8hoAXTD5kfxntoWGdyb3FYjGIrRpgUJzgafhyqhWRlt1iS")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 
 @router.post("/chat")
 async def chat_with_groq(req: ChatRequest):
@@ -38,7 +38,7 @@ async def chat_with_groq(req: ChatRequest):
         
         completion = await client.chat.completions.create(
             messages=messages,
-            model="llama3-8b-8192",
+            model="llama-3.1-8b-instant",
             temperature=0.7,
             max_tokens=150,
         )
