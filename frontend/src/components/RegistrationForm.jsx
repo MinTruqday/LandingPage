@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { trackEvent } from '../utils/tracking';
+import { toast } from 'react-hot-toast';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
-  const [status, setStatus] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,27 +14,27 @@ const RegistrationForm = () => {
     
     const phoneRegex = /^[0-9]{10,11}$/;
     if (!phoneRegex.test(formData.phone)) {
-      setStatus('Số điện thoại không hợp lệ');
+      toast.error('Số điện thoại không hợp lệ');
       return;
     }
     
     trackEvent('form_submit', 'registration_form', window.location.pathname);
-    setStatus('Đang xử lý');
+    const loadingToast = toast.loading('Đang xử lý');
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const apiUrl = import.meta.env.VITE_API_URL || '';
       const response = await fetch(`${apiUrl}/api/webhook/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
       if (response.ok) {
-        setStatus('Đăng ký thành công');
+        toast.success('Đăng ký thành công', { id: loadingToast });
         setFormData({ name: '', email: '', phone: '' });
       } else {
-        setStatus('Có lỗi xảy ra từ máy chủ');
+        toast.error('Có lỗi xảy ra từ máy chủ', { id: loadingToast });
       }
     } catch (error) {
-      setStatus('Lỗi kết nối máy chủ');
+      toast.error('Lỗi kết nối máy chủ', { id: loadingToast });
     }
   };
 
@@ -56,7 +56,6 @@ const RegistrationForm = () => {
             <input type="tel" name="phone" required value={formData.phone} onChange={handleChange} />
           </div>
           <button type="submit" className="btn">Đăng ký ngay</button>
-          {status && <p style={{ marginTop: '15px', color: 'var(--primary-color)' }}>{status}</p>}
         </form>
       </div>
     </section>

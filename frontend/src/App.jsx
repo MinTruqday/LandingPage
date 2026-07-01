@@ -1,11 +1,10 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Specs from './components/Specs';
 import Ecommerce from './components/Ecommerce';
 import RegistrationForm from './components/RegistrationForm';
-import Chatbot from './components/Chatbot';
 import Checkout from './components/Checkout';
 import ProductsPage from './components/ProductsPage';
 import { initScrollTracking } from './utils/tracking';
@@ -14,6 +13,8 @@ import { AppProvider, AppContext } from './context/AppContext';
 import AuthPage from './components/AuthPage';
 import FavoritesPage from './components/FavoritesPage';
 import { Toaster } from 'react-hot-toast';
+
+const Chatbot = lazy(() => import('./components/Chatbot'));
 
 function MainApp() {
   const { currentView } = useContext(AppContext);
@@ -47,7 +48,11 @@ function MainApp() {
       <main>
         {renderView()}
       </main>
-      {currentView === 'home' && <Chatbot />}
+      {currentView === 'home' && (
+        <Suspense fallback={null}>
+          <Chatbot />
+        </Suspense>
+      )}
       {currentView !== 'auth' && (
         <footer style={{ textAlign: 'center', padding: '40px', borderTop: '1px solid var(--border-color)', marginTop: '40px' }}>
           <p>&copy; 2026 Bản quyền thuộc về Cao Minh Trung.</p>

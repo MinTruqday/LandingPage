@@ -31,7 +31,7 @@ const Navbar = () => {
     <>
       <nav>
         <div className="logo" style={{ fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => {setCurrentView('home'); closeMobileMenu();}}>
-          iPhone 17 Pro
+          LandingPage
         </div>
         
         <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>

@@ -1,6 +1,6 @@
 export const trackEvent = async (eventType, elementId, path) => {
   try {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    const apiUrl = import.meta.env.VITE_API_URL || '';
     await fetch(`${apiUrl}/api/webhook/track`, {
       method: "POST",
       headers: {

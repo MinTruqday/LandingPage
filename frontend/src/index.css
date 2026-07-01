@@ -537,3 +537,16 @@ body:not(.dark-mode) .hero-img, body:not(.dark-mode) .product-card img, body:not
   margin-bottom: 15px;
 }
 
+.skeleton-chatbot .skeleton-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--text-color);
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 1; }
+}

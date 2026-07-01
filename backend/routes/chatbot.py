@@ -15,6 +15,11 @@ async def chat_with_groq(req: ChatRequest):
         return {"response": "Xin chào! Đây là phản hồi giả lập vì GROQ_API_KEY chưa được cấu hình. Bạn cần iPhone 17 Pro Max phiên bản nào?"}
     
     try:
+        import sys
+        import os
+        backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        if backend_dir not in sys.path:
+            sys.path.append(backend_dir)
         from rag import rag_system
         user_query = req.messages[-1].content
         context = rag_system.retrieve(user_query)

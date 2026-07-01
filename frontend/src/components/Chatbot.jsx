@@ -33,14 +33,15 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const apiUrl = import.meta.env.VITE_API_URL || '';
       const response = await fetch(`${apiUrl}/api/chatbot/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: newMessages })
       });
+      if (!response.ok) throw new Error("API error");
       const data = await response.json();
-      setMessages([...newMessages, { role: 'assistant', content: data.response }]);
+      setMessages([...newMessages, { role: 'assistant', content: data.response || 'Xin lỗi, tôi không thể trả lời lúc này.' }]);
     } catch (error) {
       setMessages([...newMessages, { role: 'assistant', content: 'Xin lỗi, hệ thống đang bận.' }]);
     } finally {
@@ -62,7 +63,13 @@ const Chatbot = () => {
                 {msg.content}
               </div>
             ))}
-            {isLoading && <div className="message bot">Đang trả lời</div>}
+            {isLoading && (
+              <div className="message bot skeleton-chatbot" style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                <div className="skeleton-dot"></div>
+                <div className="skeleton-dot" style={{ animationDelay: '0.2s' }}></div>
+                <div className="skeleton-dot" style={{ animationDelay: '0.4s' }}></div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
           <div className="chat-input">
