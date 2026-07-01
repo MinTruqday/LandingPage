@@ -25,6 +25,9 @@ class Product(BaseModel):
     price: str
     image: str
     category: str
+    color: Optional[str] = None
+    storage: Optional[str] = None
+    quantity: Optional[int] = 100
 
 class UserRegister(BaseModel):
     name: str
