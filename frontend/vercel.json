@@ -5,6 +5,10 @@
       "destination": "http://localhost:8000/api/$1"
     },
     {
+      "source": "/(robots\\.txt|llms\\.txt|sitemap\\.xml)",
+      "destination": "/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
