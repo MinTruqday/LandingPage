@@ -16,9 +16,9 @@ async def register_user(form: RegistrationForm, db=Depends(get_db)):
 async def track_behavior(data: TrackingData, db=Depends(get_db)):
     try:
         await db.tracking.insert_one(data.model_dump())
-        print(f"\nNgười dùng vừa thực hiện hành động: {data.action.upper()}")
+        print(f"\nNgười dùng vừa thực hiện hành động: {data.event_type.upper()}")
         print(f"  - Element: {data.element_id}")
-        print(f"  - URL: {data.url}")
+        print(f"  - Path: {data.path}")
         print(f"  - Thời gian: {data.timestamp}\n")
         return {"status": "success", "message": "Đã ghi nhận dữ liệu theo dõi"}
     except Exception as e:
