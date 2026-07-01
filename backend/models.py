@@ -58,3 +58,23 @@ class TokenResponse(BaseModel):
     refresh_token: str
     token_type: str = "bearer"
     user_name: str
+    favorites: List[str] = []
+    cart: List[dict] = []
+
+class SyncData(BaseModel):
+    favorites: List[str]
+    cart: List[dict]
+
+class OrderItem(BaseModel):
+    name: str
+    price: str
+    quantity: int
+    image: str
+
+class OrderData(BaseModel):
+    name: str
+    phone: str
+    address: str
+    payment_method: str
+    items: List[OrderItem]
+    total: str

@@ -115,13 +115,38 @@ export const AppProvider = ({ children }) => {
   
   const clearCart = () => setCart([]);
 
-  const login = (userData, accessToken, refreshToken) => {
+  const login = (userData, accessToken, refreshToken, fetchedFavorites = [], fetchedCart = []) => {
     setUser({ name: userData });
     setTokens({ access_token: accessToken, refresh_token: refreshToken });
+    setFavorites(fetchedFavorites);
+    setCart(fetchedCart);
     localStorage.setItem('user_name', userData);
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
   };
+
+  useEffect(() => {
+    if (user && tokens) {
+      const syncData = async () => {
+        try {
+          const apiUrl = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://landingpage-x1qu.onrender.com');
+          await fetch(`${apiUrl}/api/auth/sync`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${tokens.access_token}`
+            },
+            body: JSON.stringify({ favorites, cart })
+          });
+        } catch (e) {
+          console.error("Sync failed", e);
+        }
+      };
+      
+      const timeout = setTimeout(syncData, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [cart, favorites, user, tokens]);
 
   const logout = () => {
     setUser(null);

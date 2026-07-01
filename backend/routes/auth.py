@@ -1,7 +1,7 @@
-from fastapi import APIRouter, HTTPException, Depends, status
-from models import UserRegister, UserLogin, TokenResponse
+from fastapi import APIRouter, HTTPException, Depends, status, Request
+from models import UserRegister, UserLogin, TokenResponse, SyncData
 from database import get_db
-from auth_utils import get_password_hash, verify_password, create_access_token, create_refresh_token
+from auth_utils import get_password_hash, verify_password, create_access_token, create_refresh_token, decode_token
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -19,7 +19,9 @@ async def register(user: UserRegister, db=Depends(get_db)):
     new_user = {
         "name": user.name,
         "email": user.email,
-        "hashed_password": hashed_password
+        "hashed_password": hashed_password,
+        "favorites": [],
+        "cart": []
     }
     
     await db.auth_users.insert_one(new_user)
@@ -30,7 +32,9 @@ async def register(user: UserRegister, db=Depends(get_db)):
     return TokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
-        user_name=user.name
+        user_name=user.name,
+        favorites=[],
+        cart=[]
     )
 
 @router.post("/login", response_model=TokenResponse)
@@ -48,5 +52,26 @@ async def login(user: UserLogin, db=Depends(get_db)):
     return TokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
-        user_name=db_user["name"]
+        user_name=db_user["name"],
+        favorites=db_user.get("favorites", []),
+        cart=db_user.get("cart", [])
     )
+
+@router.post("/sync")
+async def sync_data(data: SyncData, req: Request, db=Depends(get_db)):
+    auth_header = req.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+        
+    token = auth_header.split(" ")[1]
+    payload = decode_token(token)
+    if not payload or not payload.get("sub"):
+        raise HTTPException(status_code=401, detail="Invalid token")
+        
+    email = payload.get("sub")
+    await db.auth_users.update_one(
+        {"email": email},
+        {"$set": {"favorites": data.favorites, "cart": data.cart}}
+    )
+    
+    return {"status": "success"}
