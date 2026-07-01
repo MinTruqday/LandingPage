@@ -104,12 +104,33 @@ export const AppProvider = ({ children }) => {
   };
 
   const [currentView, setCurrentView] = useState('home');
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user_name');
+    return savedUser ? { name: savedUser } : null;
+  });
+  const [tokens, setTokens] = useState(() => {
+    const access = localStorage.getItem('access_token');
+    const refresh = localStorage.getItem('refresh_token');
+    return access ? { access_token: access, refresh_token: refresh } : null;
+  });
   
   const clearCart = () => setCart([]);
 
-  const login = (userData) => setUser(userData);
-  const logout = () => setUser(null);
+  const login = (userData, accessToken, refreshToken) => {
+    setUser({ name: userData });
+    setTokens({ access_token: accessToken, refresh_token: refreshToken });
+    localStorage.setItem('user_name', userData);
+    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('refresh_token', refreshToken);
+  };
+
+  const logout = () => {
+    setUser(null);
+    setTokens(null);
+    localStorage.removeItem('user_name');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+  };
 
   return (
     <AppContext.Provider value={{
@@ -118,7 +139,7 @@ export const AppProvider = ({ children }) => {
       favorites, toggleFavorite,
       viewedProducts, addViewedProduct,
       currentView, setCurrentView,
-      user, login, logout,
+      user, tokens, login, logout,
       productsData
     }}>
       {children}

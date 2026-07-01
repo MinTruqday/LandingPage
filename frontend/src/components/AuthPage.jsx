@@ -7,9 +7,10 @@ const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '', name: '' });
+  const [isLoading, setIsLoading] = useState(false);
   const { login, setCurrentView } = useContext(AppContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isForgotPassword) {
       toast.success('Đã gửi liên kết khôi phục mật khẩu vào email của bạn!');
@@ -17,9 +18,40 @@ const AuthPage = () => {
       return;
     }
     
-    login(formData.name || formData.email.split('@')[0]);
-    toast.success(isLogin ? 'Đăng nhập thành công!' : 'Đăng ký thành công!');
-    setCurrentView('home');
+    setIsLoading(true);
+    const loadingToast = toast.loading('Đang xử lý...');
+    
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+      const bodyData = isLogin 
+        ? { email: formData.email, password: formData.password }
+        : { name: formData.name, email: formData.email, password: formData.password };
+
+      const res = await fetch(`${apiUrl}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData)
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(isLogin ? 'Đăng nhập thành công!' : 'Đăng ký thành công!', { id: loadingToast });
+        login(data.user_name, data.access_token, data.refresh_token);
+        
+        // Add small delay so user can see the toast before redirect
+        setTimeout(() => {
+          setCurrentView('home');
+        }, 1200);
+      } else {
+        toast.error(data.detail || 'Có lỗi xảy ra', { id: loadingToast });
+      }
+    } catch (err) {
+      toast.error('Lỗi kết nối máy chủ', { id: loadingToast });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {

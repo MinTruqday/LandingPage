@@ -25,3 +25,18 @@ class Product(BaseModel):
     price: str
     image: str
     category: str
+
+class UserRegister(BaseModel):
+    name: str
+    email: EmailStr
+    password: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
+    user_name: str

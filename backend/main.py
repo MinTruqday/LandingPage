@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import webhook, chatbot, products
+from routes import webhook, chatbot, products, auth
 
-app = FastAPI(title="iPhone 17 Pro Landing Page API")
+app = FastAPI(title="Helicorp Landing Page API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -12,10 +12,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(webhook.router, prefix="/api/webhook", tags=["webhook"])
-app.include_router(chatbot.router, prefix="/api/chatbot", tags=["chatbot"])
-app.include_router(products.router, prefix="/api/products", tags=["products"])
+app.include_router(webhook.router, prefix="/api/webhook", tags=["Webhook"])
+app.include_router(chatbot.router, prefix="/api/chatbot", tags=["Chatbot"])
+app.include_router(products.router, prefix="/api/products", tags=["Products"])
+app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 
 @app.get("/")
 def read_root():
-    return {"message": "API is running"}
+    return {"message": "Welcome to Helicorp API"}
