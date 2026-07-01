@@ -23,7 +23,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || '';
+        const apiUrl = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://landingpage-x1qu.onrender.com');
         const res = await fetch(`${apiUrl}/api/products`);
         if (res.ok) {
           const data = await res.json();

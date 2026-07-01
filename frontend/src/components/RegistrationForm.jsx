@@ -21,7 +21,7 @@ const RegistrationForm = () => {
     trackEvent('form_submit', 'registration_form', window.location.pathname);
     const loadingToast = toast.loading('Đang xử lý');
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const apiUrl = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://landingpage-x1qu.onrender.com');
       const response = await fetch(`${apiUrl}/api/webhook/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

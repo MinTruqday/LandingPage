@@ -22,7 +22,7 @@ const AuthPage = () => {
     const loadingToast = toast.loading('Đang xử lý...');
     
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const apiUrl = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://landingpage-x1qu.onrender.com');
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const bodyData = isLogin 
         ? { email: formData.email, password: formData.password }

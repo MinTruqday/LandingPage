@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 export const trackEvent = async (eventType, elementId, path) => {
   try {
-    const apiUrl = import.meta.env.VITE_API_URL || '';
+    const apiUrl = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://landingpage-x1qu.onrender.com');
     await fetch(`${apiUrl}/api/webhook/track`, {
       method: "POST",
       headers: {
@@ -16,7 +16,6 @@ export const trackEvent = async (eventType, elementId, path) => {
       }),
     });
     
-    // Hiển thị thông báo khi theo dõi hành vi
     const actionName = eventType === 'scroll' ? 'Cuộn trang' : (eventType === 'click' ? 'Click' : eventType);
     toast(`Đã ghi nhận hành vi: ${actionName}`, {
       icon: '👁️',
