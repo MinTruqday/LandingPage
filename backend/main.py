@@ -1,8 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import asyncio
+import urllib.request
 from routes import webhook, chatbot, products, auth
 
 app = FastAPI(title="Helicorp Landing Page API")
+
+async def keep_alive():
+    while True:
+        await asyncio.sleep(14 * 60)
+        try:
+            url = "https://landingpage-x1qu.onrender.com/"
+            await asyncio.to_thread(urllib.request.urlopen, url)
+            print("Pinged self to stay awake")
+        except Exception as e:
+            print(f"Keep alive ping failed: {e}")
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(keep_alive())
 
 app.add_middleware(
     CORSMiddleware,
