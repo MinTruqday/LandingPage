@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://johnnycomic999_db_user:jmoe16wd2Oa5oOal@cluster0.jthfa8g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 client = None
 db = None
 
