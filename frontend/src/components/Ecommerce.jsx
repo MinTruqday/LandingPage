@@ -36,7 +36,7 @@ const Ecommerce = () => {
       <div className="product-grid">
         {featuredProducts.map(product => (
           <div key={product.id} className="product-card" style={{ backgroundColor: 'var(--secondary-bg)' }}>
-            <img src={product.image} alt={product.name} loading="lazy" />
+            <img src={product.image} alt={product.name} loading="lazy" width="300" height="300" />
             <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>{product.name}</h3>
             <p style={{ color: 'var(--primary-color)', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
             <div className="product-actions" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>

@@ -55,7 +55,7 @@ const Chatbot = () => {
         <div className="chat-window">
           <div className="chat-header">
             Tư vấn viên AI
-            <button onClick={toggleChat}><X size={20} color="var(--text-color)" /></button>
+            <button onClick={toggleChat} aria-label="Đóng Chatbot"><X size={20} color="var(--text-color)" /></button>
           </div>
           <div className="chat-messages">
             {messages.map((msg, idx) => (
@@ -80,12 +80,12 @@ const Chatbot = () => {
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Nhập tin nhắn"
             />
-            <button onClick={handleSend} disabled={isLoading}><Send size={20} /></button>
+            <button onClick={handleSend} disabled={isLoading} aria-label="Gửi tin nhắn"><Send size={20} /></button>
           </div>
         </div>
       )}
       {!isOpen && (
-        <button className="chat-toggle" onClick={toggleChat}>
+        <button className="chat-toggle" onClick={toggleChat} aria-label="Mở Chatbot">
           <MessageSquare size={24} />
         </button>
       )}

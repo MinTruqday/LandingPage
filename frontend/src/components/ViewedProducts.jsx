@@ -23,7 +23,7 @@ const ViewedProducts = () => {
       <div style={{ display: 'flex', gap: '20px', overflowX: 'auto', paddingBottom: '20px' }} className="hide-scrollbar">
         {recentProducts.map(product => (
           <div key={product.id} style={{ minWidth: '200px', backgroundColor: 'var(--secondary-bg)', padding: '15px', borderRadius: '10px' }}>
-            <img src={product.image} alt={product.name} style={{ width: '100%', height: '150px', objectFit: 'contain', marginBottom: '10px' }} />
+            <img src={product.image} alt={product.name} loading="lazy" width="150" height="150" style={{ width: '100%', height: '150px', objectFit: 'contain', marginBottom: '10px' }} />
             <h4 style={{ fontSize: '1rem', marginBottom: '5px' }}>{product.name}</h4>
             <p style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>{product.price}</p>
           </div>

@@ -21,7 +21,7 @@ const ProductDetail = ({ product, onClose }) => {
         style={{ width: '90%', maxWidth: '800px', height: 'auto', maxHeight: '90vh', borderRadius: '20px', flexDirection: 'row', overflow: 'hidden' }}
       >
         <div style={{ flex: 1, backgroundColor: 'white', padding: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={product.image} alt={product.name} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain' }} />
+          <img src={product.image} alt={product.name} loading="lazy" width="400" height="400" style={{ width: '100%', maxHeight: '400px', objectFit: 'contain' }} />
         </div>
         
         <div style={{ flex: 1, padding: '40px', display: 'flex', flexDirection: 'column', position: 'relative' }}>

@@ -34,7 +34,7 @@ const Navbar = () => {
           LandingPage
         </div>
         
-        <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button className="mobile-menu-btn" aria-label="Mở menu di động" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
@@ -47,7 +47,7 @@ const Navbar = () => {
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Hi, {user}</span>
-                <button onClick={handleLogout} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}><LogOut size={18} /></button>
+                <button onClick={handleLogout} aria-label="Đăng xuất" style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}><LogOut size={18} /></button>
               </div>
             ) : (
               <button onClick={() => {setCurrentView('auth'); closeMobileMenu();}} style={{ color: 'var(--text-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '5px 15px', background: 'none', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold' }}>
@@ -56,7 +56,7 @@ const Navbar = () => {
             )}
             
             {user && (
-              <button onClick={() => {
+              <button aria-label="Sản phẩm yêu thích" onClick={() => {
                 setCurrentView('favorites');
                 closeMobileMenu();
               }} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer', position: 'relative' }}>
@@ -74,11 +74,11 @@ const Navbar = () => {
               </button>
             )}
 
-            <button onClick={toggleDarkMode} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
+            <button onClick={toggleDarkMode} aria-label="Chuyển chế độ sáng tối" style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <button onClick={() => {setIsCartOpen(true); closeMobileMenu();}} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
+              <button onClick={() => {setIsCartOpen(true); closeMobileMenu();}} aria-label="Xem giỏ hàng" style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}>
                 <ShoppingCart size={20} />
               </button>
               {cart.length > 0 && (
@@ -101,7 +101,7 @@ const Navbar = () => {
           <div className="cart-modal" onClick={e => e.stopPropagation()}>
             <div className="cart-header">
               <h2>Giỏ hàng của bạn</h2>
-              <button onClick={() => setIsCartOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+              <button onClick={() => setIsCartOpen(false)} aria-label="Đóng giỏ hàng" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                 <X size={24} color="var(--text-color)" />
               </button>
             </div>
@@ -111,7 +111,7 @@ const Navbar = () => {
               ) : (
                 cart.map((item, index) => (
                   <div key={index} className="cart-item">
-                    <img src={item.image} alt={item.name} />
+                    <img src={item.image} alt={item.name} loading="lazy" width="50" height="50" />
                     <div className="cart-item-details" style={{ flex: 1 }}>
                       <h4>{item.name}</h4>
                       <p style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>{item.price}</p>

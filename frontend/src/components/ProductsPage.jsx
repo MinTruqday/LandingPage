@@ -73,7 +73,7 @@ const ProductsPage = () => {
                   handleProductClick(product);
                 }}
               >
-                <img src={product.image} alt={product.name} loading="lazy" />
+                <img src={product.image} alt={product.name} loading="lazy" width="200" height="200" style={{ width: '100%', height: '200px', objectFit: 'contain', marginBottom: '15px' }} />
                 <h3 style={{ fontSize: '1.1rem' }}>{product.name}</h3>
                 <p style={{ color: 'var(--primary-color)', margin: '10px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
                 <div className="product-actions">
@@ -87,6 +87,7 @@ const ProductsPage = () => {
                   <button 
                     className={`btn-icon ${favorites.includes(product.id) ? 'active' : ''}`}
                     onClick={(e) => handleToggleFavorite(e, product)}
+                    aria-label={favorites.includes(product.id) ? "Bỏ yêu thích" : "Thêm vào yêu thích"}
                   >
                     <Heart size={20} fill={favorites.includes(product.id) ? 'currentColor' : 'none'} />
                   </button>

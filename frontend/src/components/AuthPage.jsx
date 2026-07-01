@@ -112,8 +112,9 @@ const AuthPage = () => {
           <form onSubmit={handleSubmit}>
             {!isLogin && !isForgotPassword && (
               <div className="form-group" style={{ marginBottom: '20px' }}>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Họ và tên</label>
+                <label htmlFor="auth-name" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Họ và tên</label>
                 <input 
+                  id="auth-name"
                   type="text" 
                   name="name" 
                   required 
@@ -124,8 +125,9 @@ const AuthPage = () => {
               </div>
             )}
             <div className="form-group" style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Email</label>
+              <label htmlFor="auth-email" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Email</label>
               <input 
+                id="auth-email"
                 type="email" 
                 name="email" 
                 required 
@@ -137,7 +139,7 @@ const AuthPage = () => {
             {!isForgotPassword && (
               <div className="form-group" style={{ marginBottom: '30px', position: 'relative' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <label style={{ fontWeight: '500' }}>Mật khẩu</label>
+                  <label htmlFor="auth-password" style={{ fontWeight: '500' }}>Mật khẩu</label>
                   {isLogin && (
                     <button 
                       type="button"
@@ -149,6 +151,7 @@ const AuthPage = () => {
                   )}
                 </div>
                 <input 
+                  id="auth-password"
                   type="password" 
                   name="password" 
                   required 

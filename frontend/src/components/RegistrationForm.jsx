@@ -44,16 +44,16 @@ const RegistrationForm = () => {
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Họ và tên</label>
-            <input type="text" name="name" required value={formData.name} onChange={handleChange} />
+            <label htmlFor="reg-name">Họ và tên</label>
+            <input id="reg-name" type="text" name="name" required value={formData.name} onChange={handleChange} />
           </div>
           <div className="form-group">
-            <label>Email</label>
-            <input type="email" name="email" required value={formData.email} onChange={handleChange} />
+            <label htmlFor="reg-email">Email</label>
+            <input id="reg-email" type="email" name="email" required value={formData.email} onChange={handleChange} />
           </div>
           <div className="form-group">
-            <label>Số điện thoại</label>
-            <input type="tel" name="phone" required value={formData.phone} onChange={handleChange} />
+            <label htmlFor="reg-phone">Số điện thoại</label>
+            <input id="reg-phone" type="tel" name="phone" required value={formData.phone} onChange={handleChange} />
           </div>
           <button type="submit" className="btn">Đăng ký ngay</button>
         </form>

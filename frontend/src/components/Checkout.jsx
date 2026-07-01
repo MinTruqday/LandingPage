@@ -80,7 +80,7 @@ const Checkout = () => {
             {cart.map((item, index) => (
               <div key={index} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
+                  <img src={item.image} alt={item.name} loading="lazy" width="50" height="50" style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
                   <div>
                     <p style={{ fontWeight: 'bold' }}>{item.name}</p>
                     <p style={{ fontSize: '0.9rem' }}>Số lượng: {item.quantity || 1}</p>

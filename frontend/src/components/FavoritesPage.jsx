@@ -22,7 +22,7 @@ const FavoritesPage = () => {
           <div className="product-grid" style={{ padding: 0 }}>
             {favoriteProducts.map(product => (
               <div key={product.id} className="product-card" style={{ backgroundColor: 'var(--secondary-bg)' }}>
-                <img src={product.image} alt={product.name} />
+                <img src={product.image} alt={product.name} loading="lazy" width="100" height="100" style={{ width: '100px', height: '100px', objectFit: 'contain' }} />
                 <h3 style={{ fontSize: '1.1rem' }}>{product.name}</h3>
                 <p style={{ color: 'var(--primary-color)', margin: '10px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
                 <div className="product-actions">
