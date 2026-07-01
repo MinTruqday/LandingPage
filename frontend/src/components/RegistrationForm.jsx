@@ -12,9 +12,9 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const phoneRegex = /^[0-9]{10,11}$/;
+    const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
     if (!phoneRegex.test(formData.phone)) {
-      toast.error('Số điện thoại không hợp lệ');
+      toast.error('Số điện thoại không hợp lệ (phải bắt đầu bằng 03, 05, 07, 08, 09 và có 10 số)');
       return;
     }
     
