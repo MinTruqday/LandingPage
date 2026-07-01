@@ -47,7 +47,7 @@ const Navbar = () => {
           <div className="nav-actions">
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Hi, {user}</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Hi, {user.name}</span>
                 <button onClick={handleLogout} aria-label="Đăng xuất" style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}><LogOut size={18} /></button>
               </div>
             ) : (
