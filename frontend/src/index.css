@@ -88,6 +88,18 @@ nav {
   align-items: center;
 }
 
+@media (min-width: 769px) {
+  .nav-links {
+    flex: 1;
+    justify-content: center;
+    position: relative;
+  }
+  .nav-actions {
+    position: absolute;
+    right: 0;
+  }
+}
+
 .nav-links a {
   text-decoration: none;
   color: var(--text-color);

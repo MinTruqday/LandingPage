@@ -8,6 +8,8 @@ const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
       const price = parseInt(item.price.replace(/\D/g, ''));
@@ -25,7 +27,10 @@ const Navbar = () => {
     toast.success('Đã đăng xuất');
   };
 
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setDropdownOpen(false);
+  };
 
   return (
     <>
@@ -45,33 +50,27 @@ const Navbar = () => {
           
           <div className="nav-actions">
             {user ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Hi, {user.name}</span>
-                <button onClick={handleLogout} aria-label="Đăng xuất" style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}><LogOut size={18} /></button>
+              <div style={{ position: 'relative' }}>
+                <button 
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer' }}
+                >
+                  <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Hi, {user.name}</span>
+                </button>
+                {dropdownOpen && (
+                  <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '10px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '150px', zIndex: 1000, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                    <button onClick={() => {setCurrentView('favorites'); closeMobileMenu();}} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'none', border: 'none', color: 'var(--text-color)', cursor: 'pointer', textAlign: 'left', width: '100%', padding: '5px 0' }}>
+                      <Heart size={16} /> Yêu thích ({favorites.length})
+                    </button>
+                    <button onClick={() => {handleLogout(); closeMobileMenu();}} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'none', border: 'none', color: 'red', cursor: 'pointer', textAlign: 'left', width: '100%', padding: '5px 0' }}>
+                      <LogOut size={16} /> Đăng xuất
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <button onClick={() => {setCurrentView('auth'); closeMobileMenu();}} style={{ color: 'var(--text-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '5px 15px', background: 'none', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold' }}>
                 Đăng nhập
-              </button>
-            )}
-            
-            {user && (
-              <button aria-label="Sản phẩm yêu thích" onClick={() => {
-                setCurrentView('favorites');
-                closeMobileMenu();
-              }} style={{ color: 'var(--text-color)', border: 'none', background: 'none', cursor: 'pointer', position: 'relative' }}>
-                <Heart size={20} />
-                {favorites.length > 0 && (
-                  <span style={{
-                    position: 'absolute', top: '-8px', right: '-8px',
-                    backgroundColor: 'var(--primary-color)', color: 'white', borderRadius: '50%',
-                    minWidth: '18px', height: '18px', fontSize: '10px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    padding: '0 4px', lineHeight: '1'
-                  }}>
-                    {favorites.length}
-                  </span>
-                )}
               </button>
             )}
 
