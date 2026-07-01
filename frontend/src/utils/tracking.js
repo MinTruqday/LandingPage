@@ -18,7 +18,6 @@ export const trackEvent = async (eventType, elementId, path) => {
     
     const actionName = eventType === 'scroll' ? 'Cuộn trang' : (eventType === 'click' ? 'Click' : eventType);
     toast(`Đã ghi nhận hành vi: ${actionName}`, {
-      icon: '👁️',
       position: 'bottom-left',
       style: {
         borderRadius: '10px',
@@ -36,12 +35,18 @@ export const trackEvent = async (eventType, elementId, path) => {
 
 export const initScrollTracking = () => {
   let scrollTimeout;
+  let lastScrollY = window.scrollY;
+  
   window.addEventListener("scroll", () => {
     if (scrollTimeout) clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
-      const scrollDepth = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
-      if (scrollDepth > 0) {
-        trackEvent("scroll", `depth_${scrollDepth}`, window.location.pathname);
+      const currentScrollY = window.scrollY;
+      if (Math.abs(currentScrollY - lastScrollY) > 50) {
+        lastScrollY = currentScrollY;
+        const scrollDepth = Math.round((currentScrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+        if (scrollDepth > 0) {
+          trackEvent("scroll", `depth_${scrollDepth}`, window.location.pathname);
+        }
       }
     }, 1000);
   });
