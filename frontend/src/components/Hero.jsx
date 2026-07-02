@@ -31,6 +31,8 @@ const Hero = () => {
         className="hero-img"
         width="600"
         height="338"
+        fetchpriority="high"
+        loading="eager"
         style={{ y: imgY, width: '100%', maxWidth: '600px', height: 'auto', objectFit: 'contain' }}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

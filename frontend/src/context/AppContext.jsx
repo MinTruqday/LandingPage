@@ -130,7 +130,7 @@ export const AppProvider = ({ children }) => {
       const syncData = async () => {
         try {
           const apiUrl = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://landingpage-x1qu.onrender.com');
-          await fetch(`${apiUrl}/api/auth/sync`, {
+          let res = await fetch(`${apiUrl}/api/auth/sync`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -138,6 +138,32 @@ export const AppProvider = ({ children }) => {
             },
             body: JSON.stringify({ favorites, cart })
           });
+
+          if (res.status === 401 && tokens.refresh_token) {
+            const refreshRes = await fetch(`${apiUrl}/api/auth/refresh`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ refresh_token: tokens.refresh_token })
+            });
+            
+            if (refreshRes.ok) {
+              const data = await refreshRes.json();
+              setTokens({ access_token: data.access_token, refresh_token: data.refresh_token });
+              localStorage.setItem('access_token', data.access_token);
+              localStorage.setItem('refresh_token', data.refresh_token);
+              
+              await fetch(`${apiUrl}/api/auth/sync`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${data.access_token}`
+                },
+                body: JSON.stringify({ favorites, cart })
+              });
+            } else {
+              logout();
+            }
+          }
         } catch (e) {
           console.error("Sync failed", e);
         }

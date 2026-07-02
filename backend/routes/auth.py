@@ -73,5 +73,26 @@ async def sync_data(data: SyncData, req: Request, db=Depends(get_db)):
         {"email": email},
         {"$set": {"favorites": data.favorites, "cart": data.cart}}
     )
-    
     return {"status": "success"}
+
+@router.post("/refresh", response_model=TokenResponse)
+async def refresh_token(req: RefreshRequest, db=Depends(get_db)):
+    payload = decode_token(req.refresh_token)
+    if not payload or not payload.get("sub"):
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+        
+    email = payload.get("sub")
+    db_user = await db.auth_users.find_one({"email": email})
+    if not db_user:
+        raise HTTPException(status_code=401, detail="User not found")
+        
+    access_token = create_access_token(data={"sub": email, "name": db_user["name"]})
+    new_refresh_token = create_refresh_token(data={"sub": email})
+    
+    return TokenResponse(
+        access_token=access_token,
+        refresh_token=new_refresh_token,
+        user_name=db_user["name"],
+        favorites=db_user.get("favorites", []),
+        cart=db_user.get("cart", [])
+    )

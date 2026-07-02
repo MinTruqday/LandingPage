@@ -49,5 +49,5 @@ export const initScrollTracking = () => {
         }
       }
     }, 1000);
-  });
+  }, { passive: true });
 };

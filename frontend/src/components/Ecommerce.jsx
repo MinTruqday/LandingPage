@@ -49,6 +49,7 @@ const Ecommerce = () => {
               </button>
               <button 
                 className={`btn-icon ${favorites.includes(product.id) ? 'active' : ''}`}
+                aria-label={favorites.includes(product.id) ? "Bỏ yêu thích" : "Thêm vào yêu thích"}
                 onClick={(e) => handleToggleFavorite(e, product)}
               >
                 <Heart size={20} fill={favorites.includes(product.id) ? 'currentColor' : 'none'} />

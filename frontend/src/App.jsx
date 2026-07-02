@@ -1,19 +1,18 @@
 import React, { useEffect, useContext, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Features from './components/Features';
-import Specs from './components/Specs';
-import Ecommerce from './components/Ecommerce';
-import RegistrationForm from './components/RegistrationForm';
-import Checkout from './components/Checkout';
-import ProductsPage from './components/ProductsPage';
 import { initScrollTracking } from './utils/tracking';
 import { AppProvider, AppContext } from './context/AppContext';
-
-import AuthPage from './components/AuthPage';
-import FavoritesPage from './components/FavoritesPage';
 import { Toaster } from 'react-hot-toast';
 
+const Features = lazy(() => import('./components/Features'));
+const Specs = lazy(() => import('./components/Specs'));
+const Ecommerce = lazy(() => import('./components/Ecommerce'));
+const RegistrationForm = lazy(() => import('./components/RegistrationForm'));
+const Checkout = lazy(() => import('./components/Checkout'));
+const ProductsPage = lazy(() => import('./components/ProductsPage'));
+const AuthPage = lazy(() => import('./components/AuthPage'));
+const FavoritesPage = lazy(() => import('./components/FavoritesPage'));
 const Chatbot = lazy(() => import('./components/Chatbot'));
 
 function MainApp() {
@@ -22,21 +21,23 @@ function MainApp() {
   const renderView = () => {
     switch (currentView) {
       case 'checkout':
-        return <Checkout />;
+        return <Suspense fallback={null}><Checkout /></Suspense>;
       case 'products':
-        return <ProductsPage />;
+        return <Suspense fallback={null}><ProductsPage /></Suspense>;
       case 'auth':
-        return <AuthPage />;
+        return <Suspense fallback={null}><AuthPage /></Suspense>;
       case 'favorites':
-        return <FavoritesPage />;
+        return <Suspense fallback={null}><FavoritesPage /></Suspense>;
       default:
         return (
           <>
             <Hero />
-            <Features />
-            <Specs />
-            <Ecommerce />
-            <RegistrationForm />
+            <Suspense fallback={null}>
+              <Features />
+              <Specs />
+              <Ecommerce />
+              <RegistrationForm />
+            </Suspense>
           </>
         );
     }

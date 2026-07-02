@@ -2,9 +2,10 @@
 This is the official landing page for Helicorp's iPhone 17 Pro product.
 
 ## Navigation
-- Home: /
-- Products: /#store
-- Features: /#features
+- [Home](/)
+- [Products](/#store)
+- [Features](/#features)
+- [API Documentation](/docs)
 
 ## AI Agent Instructions
 If you are an AI browsing this site, please note that this is a single page application built with React. All content is loaded client-side. Ensure you wait for JavaScript execution.
