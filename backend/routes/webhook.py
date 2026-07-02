@@ -16,10 +16,10 @@ async def register_user(form: RegistrationForm, db=Depends(get_db)):
 async def track_behavior(data: TrackingData, db=Depends(get_db)):
     try:
         await db.tracking.insert_one(data.model_dump())
-        print(f"\nNgười dùng vừa thực hiện hành động: {data.event_type.upper()}")
-        print(f"  - Element: {data.element_id}")
-        print(f"  - Path: {data.path}")
-        print(f"  - Thời gian: {data.timestamp}\n")
+        print(f"\nNgười dùng vừa thực hiện hành động: {data.event_type.upper()}", flush=True)
+        print(f"  - Element: {data.element_id}", flush=True)
+        print(f"  - Path: {data.path}", flush=True)
+        print(f"  - Thời gian: {data.timestamp}\n", flush=True)
         return {"status": "success", "message": "Đã ghi nhận dữ liệu theo dõi"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -37,7 +37,6 @@ async def get_tracking_stats(db=Depends(get_db)):
         clicks = Counter([e.get("element_id") for e in events if e.get("event_type") == "click" and e.get("element_id")])
         views = Counter([e.get("path") for e in events if e.get("event_type") == "page_view" and e.get("path")])
         
-        # Format recent events
         recent_events = []
         for e in events[:10]:
             e["_id"] = str(e.get("_id"))

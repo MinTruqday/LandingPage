@@ -20,7 +20,7 @@ const Checkout = () => {
       return;
     }
     
-    alert('Đặt hàng thành công! Cảm ơn bạn đã tin tưởng iPhone 17 Pro.');
+    alert('Đặt hàng thành công! Cảm ơn bạn đã tin tưởng.');
     clearCart();
     setIsCheckout(false);
   };

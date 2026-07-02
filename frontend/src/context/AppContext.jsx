@@ -27,7 +27,11 @@ export const AppProvider = ({ children }) => {
         const res = await fetch(`${apiUrl}/api/products`);
         if (res.ok) {
           const data = await res.json();
-          setProductsData(data);
+          const optimizedData = data.map(p => ({
+            ...p,
+            image: p.image + "?v=2"
+          }));
+          setProductsData(optimizedData);
         }
       } catch (e) {
         console.error("Error fetching products", e);
