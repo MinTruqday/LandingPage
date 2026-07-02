@@ -18,6 +18,10 @@ const Chatbot = lazy(() => import('./components/Chatbot'));
 function MainApp() {
   const { currentView } = useContext(AppContext);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [currentView]);
+
   const renderView = () => {
     switch (currentView) {
       case 'checkout':

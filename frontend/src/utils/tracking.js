@@ -16,18 +16,6 @@ export const trackEvent = async (eventType, elementId, path) => {
       }),
     });
     
-    const actionName = eventType === 'scroll' ? 'Cuộn trang' : (eventType === 'click' ? 'Click' : eventType);
-    toast(`Đã ghi nhận hành vi: ${actionName}`, {
-      position: 'bottom-left',
-      style: {
-        borderRadius: '10px',
-        background: 'var(--secondary-bg)',
-        color: 'var(--text-color)',
-        fontSize: '0.85rem',
-        padding: '8px 12px',
-      },
-      duration: 2000,
-    });
   } catch (error) {
     console.error("Tracking error:", error);
   }
