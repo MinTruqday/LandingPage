@@ -5,6 +5,7 @@ import { trackEvent } from '../utils/tracking';
 import ProductDetail from './ProductDetail';
 import ViewedProducts from './ViewedProducts';
 import { toast } from 'react-hot-toast';
+import { motion } from 'framer-motion';
 
 const ProductsPage = () => {
   const { addToCart, favorites, toggleFavorite, addViewedProduct, user, setCurrentView, productsData } = useContext(AppContext);
@@ -77,20 +78,24 @@ const ProductsPage = () => {
                 <h3 style={{ fontSize: '1.1rem' }}>{product.name}</h3>
                 <p style={{ color: 'var(--primary-color)', margin: '10px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
                 <div className="product-actions">
-                  <button 
+                  <motion.button 
                     className="btn" 
                     style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                     onClick={(e) => handleAddToCart(e, product)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     <ShoppingBag size={18} /> Thêm vào giỏ
-                  </button>
-                  <button 
+                  </motion.button>
+                  <motion.button 
                     className={`btn-icon ${favorites.includes(product.id) ? 'active' : ''}`}
                     onClick={(e) => handleToggleFavorite(e, product)}
                     aria-label={favorites.includes(product.id) ? "Bỏ yêu thích" : "Thêm vào yêu thích"}
+                    whileHover={{ scale: 1.15, rotate: 10 }}
+                    whileTap={{ scale: 0.8 }}
                   >
                     <Heart size={20} fill={favorites.includes(product.id) ? 'currentColor' : 'none'} />
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             ))

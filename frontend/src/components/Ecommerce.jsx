@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { trackEvent } from '../utils/tracking';
+import { motion } from 'framer-motion';
 
 import toast from 'react-hot-toast';
 
@@ -40,20 +41,24 @@ const Ecommerce = () => {
             <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>{product.name}</h3>
             <p style={{ color: 'var(--primary-color)', fontSize: '1.2rem', fontWeight: 'bold' }}>{product.price}</p>
             <div className="product-actions" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              <button 
+              <motion.button 
                 className="btn" 
                 style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                 onClick={(e) => handleAddToCart(e, product)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <ShoppingBag size={18} /> Thêm vào giỏ
-              </button>
-              <button 
+              </motion.button>
+              <motion.button 
                 className={`btn-icon ${favorites.includes(product.id) ? 'active' : ''}`}
                 aria-label={favorites.includes(product.id) ? "Bỏ yêu thích" : "Thêm vào yêu thích"}
                 onClick={(e) => handleToggleFavorite(e, product)}
+                whileHover={{ scale: 1.15, rotate: 10 }}
+                whileTap={{ scale: 0.8 }}
               >
                 <Heart size={20} fill={favorites.includes(product.id) ? 'currentColor' : 'none'} />
-              </button>
+              </motion.button>
             </div>
           </div>
         ))}
